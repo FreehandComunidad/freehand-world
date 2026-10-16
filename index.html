@@ -28,12 +28,27 @@
     <section id="game-panel" class="card game-panel" hidden>
       <div class="section-heading"><div><p class="eyebrow">MISIÓN 01</p><h2>La llave del Bosque</h2></div><span class="tag" id="mission-status">En progreso</span></div>
       <p class="muted">Encontrá los 3 cristales para activar el portal. Después superá dos desafíos y abrí el cofre.</p>
-      <div class="progress-track"><div id="crystal-progress" class="progress-fill"></div></div>
-      <p id="crystal-count" class="small-label">Cristales: 0 de 3</p>
-      <div class="crystal-grid" id="crystal-grid">
-        <button class="crystal-node" data-crystal="0"><span>✧</span><small>Claro</small></button>
-        <button class="crystal-node" data-crystal="1"><span>✧</span><small>Azul</small></button>
-        <button class="crystal-node" data-crystal="2"><span>✧</span><small>Violeta</small></button>
+      <div class="world-toolbar">
+        <p id="world-hint" class="small-label">Movete con WASD o las flechas. Acercate a los cristales para recogerlos.</p>
+        <span id="world-position" class="tag">Bosque Brillante</span>
+      </div>
+      <div class="world-frame">
+        <canvas id="world-canvas" width="960" height="540" aria-label="Bosque 2D explorable. Usá las flechas o WASD para mover al personaje."></canvas>
+        <div class="world-overlay" id="world-overlay" hidden><span class="portal-sparkle">✦</span><strong>¡Portal activado!</strong><span>Encontraste los tres cristales.</span></div>
+      </div>
+      <div class="world-controls">
+        <div class="touch-pad" aria-label="Controles táctiles">
+          <button class="touch-control up" data-move="up" aria-label="Mover arriba">▲</button>
+          <button class="touch-control left" data-move="left" aria-label="Mover izquierda">◀</button>
+          <button class="touch-control down" data-move="down" aria-label="Mover abajo">▼</button>
+          <button class="touch-control right" data-move="right" aria-label="Mover derecha">▶</button>
+        </div>
+        <div class="world-objectives">
+          <div class="objective-top"><span>CRISTALES DEL BOSQUE</span><strong id="crystal-count">0 de 3</strong></div>
+          <div class="progress-track"><div id="crystal-progress" class="progress-fill"></div></div>
+          <div class="crystal-legend"><span id="legend-crystal-0">◇ Claro</span><span id="legend-crystal-1">◇ Azul</span><span id="legend-crystal-2">◇ Violeta</span></div>
+          <p class="small-label">Consejo: explorá los claros del bosque y evitá los árboles.</p>
+        </div>
       </div>
       <div id="challenge-area" class="challenge-area" hidden>
         <div class="divider"></div>

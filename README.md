@@ -62,6 +62,9 @@ No uses reglas abiertas como `allow read, write: if true;`. Antes de producción
 No edites el repositorio `preguntados-argentina`, su GitHub Pages ni el Firebase `preguntados-argentina`. No reutilices su configuración, colecciones ni reglas en FREEHAND WORLD.
 
 
-## Configuración Firebase de FREEHAND WORLD
-
-La configuración web del proyecto `freehand-world` ya está cargada en `js/firebase.js`. La app usa Authentication anónima y guarda el avance en `game_progress/{uid}`. Antes de publicar, verificá que las reglas de Firestore publicadas permitan al usuario autenticado leer/crear/actualizar únicamente el documento cuyo ID coincide con su UID. No publiques nunca claves privadas de cuentas de servicio.
+## Exploración 2D (v0.2)
+- Movimiento con WASD o flechas del teclado.
+- Controles táctiles en pantallas móviles.
+- Mapa Canvas con bosque, senderos, río, árboles, cristales y portal.
+- Los cristales se recogen al acercarse; al encontrar los tres se desbloquean los desafíos.
+- Conserva la progresión local y la sincronización con el Firebase independiente configurado en `js/firebase.js`.
