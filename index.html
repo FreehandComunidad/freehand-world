@@ -11,10 +11,67 @@
 :root{color-scheme:dark;--bg:#030805;--panel:rgba(7,21,13,.9);--line:rgba(207,232,211,.13);--green:#78ff9a;--gold:#ffd34d;--text:#f5f8f4;--muted:#a1b0a5;--red:#ff8d8d}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 78% 0%,#153b25 0,transparent 39%),radial-gradient(ellipse at 0% 80%,#102719 0,transparent 42%),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text)}body:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 45%,rgba(124,255,155,.035))}.shell{position:relative;width:min(1000px,100%);margin:auto;padding:26px 22px 18px}.top{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:18px}.brand-mark{width:48px;height:48px;border:1px solid var(--gold);border-radius:14px;display:grid;place-items:center;font-weight:950;letter-spacing:-4px;color:var(--gold);font-size:23px}.brand-mark span{color:var(--green)}.eyebrow{font-size:10px;letter-spacing:.2em;font-weight:850;color:var(--green);margin:0 0 8px}.brand-copy h1{font-size:16px;letter-spacing:.12em;margin:0}.brand-copy h1 span{color:var(--gold)}.status{margin-left:auto;color:var(--muted);font-size:11px;text-align:right}.screen{padding:30px 0}.hidden{display:none!important}.start-screen{max-width:760px}.start-screen h2,.screen h2{font-size:clamp(32px,5.3vw,54px);line-height:1.05;letter-spacing:-.05em;margin:12px 0 17px}.start-screen h2 span,.screen h2 span{color:var(--gold)}.lead{max-width:660px;color:var(--muted);line-height:1.75;font-size:15px}.feature-row{display:flex;gap:0;margin:27px 0 28px;border:1px solid var(--line);border-radius:14px;background:#07140c;max-width:610px}.feature-row>div{flex:1;padding:16px 18px;border-right:1px solid var(--line)}.feature-row>div:last-child{border:0}.feature-row strong,.feature-row small{display:block}.feature-row strong{font-size:20px;color:var(--gold)}.feature-row small{font-size:10px;color:var(--muted);margin-top:5px}.screen label{display:block;font-size:12px;color:var(--muted);margin-bottom:8px}.screen input{width:100%;max-width:400px;display:block;background:#07130b;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:14px;margin-bottom:12px;outline:none}.screen input:focus{border-color:var(--green)}button{font:inherit;border:0;border-radius:10px;cursor:pointer;font-weight:850;transition:transform .15s,opacity .15s}button:active{transform:scale(.99)}button:disabled{opacity:.45;cursor:not-allowed}.primary{padding:15px 20px;background:var(--gold);color:#11190e;letter-spacing:.04em;box-shadow:0 8px 28px #ffd34d18}.primary span{margin-left:14px}.full{width:100%;margin-top:20px}.secondary{background:#13271a;color:var(--green);padding:10px 13px;border:1px solid var(--line)}.message{font-size:12px;color:var(--muted);min-height:18px;line-height:1.5}.message.error{color:var(--red)}.message.success{color:var(--green)}.fine-print{color:#68786c;font-size:11px;line-height:1.5;max-width:540px;margin-top:17px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;backdrop-filter:blur(12px)}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.section-head h2,.section-head h3{font-size:21px;margin:0}.ranking{list-style:none;margin:16px 0 0;padding:0}.ranking li{display:flex;align-items:center;gap:14px;padding:12px 4px;border-bottom:1px solid var(--line)}.ranking li:last-child{border-bottom:0}.rank{width:28px;color:var(--gold);font-weight:900}.player{flex:1;overflow-wrap:anywhere}.score{font-weight:900;color:var(--green);font-variant-numeric:tabular-nums}.empty{color:var(--muted);font-size:13px}.ranking-panel{margin-top:12px}.game-top{display:flex;align-items:center;justify-content:space-between;gap:18px}.game-top h2{font-size:clamp(25px,4vw,36px);margin:0}.timers{display:flex;gap:10px}.timers>div{min-width:82px;padding:10px 12px;border:1px solid var(--line);background:#07140c;border-radius:11px;text-align:center}.timers small,.timers strong{display:block}.timers small{font-size:9px;letter-spacing:.14em;color:var(--muted)}.timers strong{font-size:19px;color:var(--gold);margin-top:3px;font-variant-numeric:tabular-nums}.progress-track{height:5px;background:#17281c;border-radius:99px;overflow:hidden;margin:23px 0 10px}.progress-track div{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .2s}.meta-row{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.meta-row span:last-child{color:var(--green);font-weight:850}.play-area{margin:25px 0;min-height:265px}.question-card{max-width:760px}.question-card .category{color:var(--green);font-size:10px;letter-spacing:.16em;font-weight:850}.question-card h3{font-size:clamp(23px,3.8vw,34px);line-height:1.2;margin:12px 0 22px;letter-spacing:-.025em}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.answer{min-height:58px;text-align:left;padding:14px 16px;color:var(--text);background:#0b1a10;border:1px solid var(--line);border-radius:12px;font-weight:650}.answer:hover:not(:disabled){border-color:var(--green);background:#102719}.answer.correct{border-color:var(--green);background:#143521}.answer.wrong{border-color:var(--red);background:#301515}.memory-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:560px}.memory-tile{aspect-ratio:1/1;font-size:clamp(24px,5vw,38px);background:#0b1a10;color:var(--gold);border:1px solid var(--line);border-radius:13px}.memory-tile:disabled{cursor:default;opacity:1}.memory-tile.selected{background:#193d26;border-color:var(--green)}.truth-actions{display:flex;gap:12px}.truth-actions button{flex:1;min-height:64px;font-size:16px}.truth-true{background:#153a23;color:var(--green);border:1px solid #2d6940}.truth-false{background:#382514;color:var(--gold);border:1px solid #75501f}.result-score{display:flex;align-items:baseline;gap:10px;margin:15px 0 22px}.result-score strong{font-size:clamp(60px,11vw,100px);line-height:1;color:var(--gold);letter-spacing:-.06em}.result-score span{color:var(--green);font-weight:900;letter-spacing:.12em}.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:680px;margin-bottom:16px}.result-stats>div{padding:15px;border:1px solid var(--line);border-radius:12px;background:#07140c}.result-stats small,.result-stats strong{display:block}.result-stats small{font-size:9px;letter-spacing:.13em;color:var(--muted)}.result-stats strong{font-size:20px;margin-top:7px}.ranking-head{margin-top:30px}.ranking-head h3{font-size:23px}.ranking-head .eyebrow{margin-bottom:6px}footer{text-align:center;padding:28px 0 4px;color:#627267;font-size:10px;letter-spacing:.12em}@media(max-width:600px){.shell{padding:16px 14px}.top{gap:10px}.brand-mark{width:42px;height:42px}.brand-copy h1{font-size:12px}.status{max-width:100px;font-size:9px}.screen{padding:23px 0}.feature-row>div{padding:12px 10px}.feature-row strong{font-size:17px}.feature-row small{font-size:9px}.game-top{align-items:flex-start;flex-direction:column}.timers{width:100%}.timers>div{flex:1}.answers{grid-template-columns:1fr}.play-area{min-height:300px}.memory-grid{gap:7px}.memory-tile{border-radius:9px}.result-stats{gap:6px}.result-stats>div{padding:10px}.result-stats strong{font-size:16px}.panel{padding:15px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
 
   </style>
-  <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-  <script defer>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="brand-mark">F<span>H</span></div>
+      <div class="brand-copy"><p class="eyebrow">FREEHAND COMUNIDAD</p><h1>FREEHAND <span>WORLD</span></h1></div>
+      <div id="connection" class="status">Conectando Firebase…</div>
+    </header>
+
+    <section id="screen-start" class="screen start-screen">
+      <div class="eyebrow">DESAFÍO SEMANAL · EDICIÓN ARGENTINA</div>
+      <h2>Una partida.<br><span>Tres desafíos. Un ranking.</span></h2>
+      <p class="lead">Cultura argentina, memoria visual y verdadero o falso. Todo de corrido, con tiempo limitado y un resultado final en el ranking semanal.</p>
+      <div class="feature-row">
+        <div><strong>5–7 min</strong><small>Duración estimada</small></div>
+        <div><strong>03</strong><small>Etapas continuas</small></div>
+        <div><strong>5000</strong><small>Puntos máximos</small></div>
+      </div>
+      <label for="alias">Elegí tu alias público</label>
+      <input id="alias" maxlength="40" minlength="2" autocomplete="nickname" value="" placeholder="Ej. Cóndor Astuto">
+      <button id="start" class="primary" disabled>COMENZAR DESAFÍO <span>→</span></button>
+      <p id="start-message" class="message">Conectando con el ranking semanal…</p>
+      <p class="fine-print">Al comenzar, la partida avanza automáticamente entre las tres etapas. No hay menú para elegir modos.</p>
+    </section>
+
+    <section id="screen-game" class="screen hidden">
+      <div class="game-top">
+        <div><p class="eyebrow" id="stage-kicker">ETAPA 01 / 03</p><h2 id="stage-title">Cultura argentina</h2></div>
+        <div class="timers"><div><small>ETAPA</small><strong id="stage-timer">00:15</strong></div><div><small>PARTIDA</small><strong id="total-timer">00:00</strong></div></div>
+      </div>
+      <div class="progress-track"><div id="progress-bar"></div></div>
+      <div class="meta-row"><span id="stage-progress">Pregunta 1 de 15</span><span id="live-score">0 PTS</span></div>
+      <div id="play-area" class="play-area"></div>
+      <p id="game-message" class="message" aria-live="polite"></p>
+    </section>
+
+    <section id="screen-result" class="screen hidden">
+      <p class="eyebrow">DESAFÍO COMPLETADO</p>
+      <h2>Tu resultado<span>.</span></h2>
+      <div class="result-score"><strong id="final-score">0</strong><span>PTS</span></div>
+      <div class="result-stats">
+        <div><small>PRECISIÓN</small><strong id="accuracy">0%</strong></div>
+        <div><small>TIEMPO TOTAL</small><strong id="final-time">00:00</strong></div>
+        <div><small>RESPUESTAS</small><strong id="answers-count">0/35</strong></div>
+      </div>
+      <p id="save-message" class="message">Guardando resultado…</p>
+      <div class="section-head ranking-head"><div><p class="eyebrow">EN VIVO</p><h3>Ranking semanal</h3></div><button id="refresh" class="secondary">Actualizar</button></div>
+      <ol id="ranking" class="ranking"><li class="empty">Cargando ranking…</li></ol>
+      <button id="back-home" class="primary full">VOLVER AL INICIO</button>
+    </section>
+
+    <section class="panel ranking-panel">
+      <div class="section-head"><div><p class="eyebrow">COMPETENCIA SEMANAL</p><h2>Mejores puntajes</h2></div><button id="refresh-home" class="secondary">Actualizar</button></div>
+      <ol id="ranking-home" class="ranking"><li class="empty">Cargando ranking…</li></ol>
+    </section>
+    <footer>FREEHANDWORLD · UN DESAFÍO, TRES ETAPAS</footer>
+  </main>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script>
 // Configuración del proyecto existente: freehand-world
 const firebaseConfig = {
   apiKey: "AIzaSyB3F7hhqnnV8kzoNoeLM0OkUzS7_bZ9Gww",
@@ -36,7 +93,7 @@ try {
 }
 
   </script>
-  <script defer>
+  <script>
 (() => {
   const $ = id => document.getElementById(id);
   const state = { user:null, startedAt:0, stageStartedAt:0, totalInterval:null, stageInterval:null, stage:0, index:0, score:0, correct:0, answered:0, totalQuestions:35, questions:[], memoryPattern:[], memoryInput:[], memoryShow:false, truthIndex:0, done:false, week:"" };
@@ -238,62 +295,5 @@ try {
 })();
 
   </script>
-</head>
-<body>
-  <main class="shell">
-    <header class="top">
-      <div class="brand-mark">F<span>H</span></div>
-      <div class="brand-copy"><p class="eyebrow">FREEHAND COMUNIDAD</p><h1>FREEHAND <span>WORLD</span></h1></div>
-      <div id="connection" class="status">Conectando Firebase…</div>
-    </header>
-
-    <section id="screen-start" class="screen start-screen">
-      <div class="eyebrow">DESAFÍO SEMANAL · EDICIÓN ARGENTINA</div>
-      <h2>Una partida.<br><span>Tres desafíos. Un ranking.</span></h2>
-      <p class="lead">Cultura argentina, memoria visual y verdadero o falso. Todo de corrido, con tiempo limitado y un resultado final en el ranking semanal.</p>
-      <div class="feature-row">
-        <div><strong>5–7 min</strong><small>Duración estimada</small></div>
-        <div><strong>03</strong><small>Etapas continuas</small></div>
-        <div><strong>5000</strong><small>Puntos máximos</small></div>
-      </div>
-      <label for="alias">Elegí tu alias público</label>
-      <input id="alias" maxlength="40" minlength="2" autocomplete="nickname" value="" placeholder="Ej. Cóndor Astuto">
-      <button id="start" class="primary" disabled>COMENZAR DESAFÍO <span>→</span></button>
-      <p id="start-message" class="message">Conectando con el ranking semanal…</p>
-      <p class="fine-print">Al comenzar, la partida avanza automáticamente entre las tres etapas. No hay menú para elegir modos.</p>
-    </section>
-
-    <section id="screen-game" class="screen hidden">
-      <div class="game-top">
-        <div><p class="eyebrow" id="stage-kicker">ETAPA 01 / 03</p><h2 id="stage-title">Cultura argentina</h2></div>
-        <div class="timers"><div><small>ETAPA</small><strong id="stage-timer">00:15</strong></div><div><small>PARTIDA</small><strong id="total-timer">00:00</strong></div></div>
-      </div>
-      <div class="progress-track"><div id="progress-bar"></div></div>
-      <div class="meta-row"><span id="stage-progress">Pregunta 1 de 15</span><span id="live-score">0 PTS</span></div>
-      <div id="play-area" class="play-area"></div>
-      <p id="game-message" class="message" aria-live="polite"></p>
-    </section>
-
-    <section id="screen-result" class="screen hidden">
-      <p class="eyebrow">DESAFÍO COMPLETADO</p>
-      <h2>Tu resultado<span>.</span></h2>
-      <div class="result-score"><strong id="final-score">0</strong><span>PTS</span></div>
-      <div class="result-stats">
-        <div><small>PRECISIÓN</small><strong id="accuracy">0%</strong></div>
-        <div><small>TIEMPO TOTAL</small><strong id="final-time">00:00</strong></div>
-        <div><small>RESPUESTAS</small><strong id="answers-count">0/35</strong></div>
-      </div>
-      <p id="save-message" class="message">Guardando resultado…</p>
-      <div class="section-head ranking-head"><div><p class="eyebrow">EN VIVO</p><h3>Ranking semanal</h3></div><button id="refresh" class="secondary">Actualizar</button></div>
-      <ol id="ranking" class="ranking"><li class="empty">Cargando ranking…</li></ol>
-      <button id="back-home" class="primary full">VOLVER AL INICIO</button>
-    </section>
-
-    <section class="panel ranking-panel">
-      <div class="section-head"><div><p class="eyebrow">COMPETENCIA SEMANAL</p><h2>Mejores puntajes</h2></div><button id="refresh-home" class="secondary">Actualizar</button></div>
-      <ol id="ranking-home" class="ranking"><li class="empty">Cargando ranking…</li></ol>
-    </section>
-    <footer>FREEHANDWORLD · UN DESAFÍO, TRES ETAPAS</footer>
-  </main>
 </body>
 </html>
