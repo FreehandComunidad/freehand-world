@@ -1,31 +1,26 @@
-# FREEHANDWORLD — Quiz Test v1
+# FREEHANDWORLD Quiz — Firebase Test Mode v5
 
-Prototipo web móvil independiente para probar la nueva dirección de FREEHANDWORLD.
+Usa el proyecto Firebase existente `freehand-world` y deja activo el modo de prueba para jugar cualquier día.
 
-## Incluye
-- Estética premium: negro, verde oscuro y dorado.
-- Argentina en 10: preguntas de opción múltiple con temporizador.
-- Memoria visual: observar una cuadrícula y encontrar un símbolo.
-- Verdad o chamuyo: afirmaciones rápidas.
-- Desafío diario de preguntas.
-- Puntajes, récords, XP de prueba y ranking local.
-- Diseño adaptable a celulares y escritorio.
+## Integración
+- Firebase Authentication anónima.
+- Perfil privado en `privateProfiles/{uid}` con el campo `realName`.
+- Ranking en tiempo real en `publicScores` con alias público, puntaje, modo y semana.
+- Intentos en `attempts/{uid}_{week}_{mode}`.
+- Conserva `game_progress` del juego anterior.
 
-## Cómo probar
-1. Descomprimí el ZIP.
-2. Abrí `index.html` en un navegador moderno. Para una experiencia más fiable, usá un servidor estático local o una rama de prueba en GitHub Pages.
-3. Probá cada modo y verificá que el puntaje, la pantalla de resultados y el ranking local funcionen.
+## Antes de subir
+1. Descomprimí este ZIP.
+2. Reemplazá `index.html`, `css/` y `js/` en el repositorio GitHub.
+3. No borres ni cambies `game_progress`, `privateProfiles`, `publicScores` ni `attempts`.
+4. Las reglas publicadas deben permitir las escrituras de estas colecciones según el archivo `firestore.rules.recommended.txt` que acompaña esta versión. No las reemplaces sin compararlas con las reglas actuales.
+5. Después del commit, esperá GitHub Pages y probá con Ctrl+F5.
 
-## Límites importantes
-- Este prototipo no está conectado a Firebase ni modifica ningún proyecto existente.
-- El ranking se guarda solamente en el navegador/dispositivo. Todavía no es un ranking global.
-- El desafío diario usa la fecha del dispositivo, pero la selección de preguntas aún no está sincronizada entre jugadores.
-- Los puntos y XP son demostrativos; no tienen valor monetario.
-- Las preguntas incluidas son una muestra inicial y deben revisarse/ampliarse antes de publicar.
-- Es una primera versión de prueba; probar en varios navegadores y dispositivos antes de considerarla lista.
+## Administrar el ranking y ver nombres reales
+Leé **`ADMINISTRACION_FIREBASE.md`**. Explica dónde aparecen las colecciones, cómo resetear ranking e intentos desde Firebase Console y dónde ver `realName` sin exponerlo al público.
 
-## Próxima etapa
-1. Probar UX y corregir errores.
-2. Ampliar y revisar el banco de preguntas.
-3. Diseñar autenticación, ranking global y desafíos sincronizados con validación del servidor.
-4. Evaluar integración posterior con servicios nuevos o aislados, sin tocar el sitio ni Firebase actuales.
+## Limitaciones de seguridad
+- El puntaje se calcula en el navegador y no está validado en servidor; no usar para premios de valor hasta agregar validación de servidor/Cloud Functions.
+- El acceso anónimo identifica una instalación/navegador, no una identidad verificada.
+- El modo de prueba permite enviar resultados cualquier día; antes del lanzamiento público habrá que reactivar el bloqueo de sábado y probarlo.
+- No se agregó ningún botón público para borrar el ranking.
