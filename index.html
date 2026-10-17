@@ -176,6 +176,29 @@ body:before{background:radial-gradient(ellipse at 50% 24%,#005a382b,transparent 
  .fh-argentina-art{top:155px;font-size:25px}
 }
 
+
+/* Navegación por pestañas: separa inicio y ranking para evitar saturar la portada */
+.fh-tabs{display:flex;align-items:center;justify-content:center;gap:8px;width:fit-content;max-width:100%;margin:0 auto 14px;padding:5px;border:1px solid rgba(120,255,180,.22);border-radius:14px;background:rgba(2,12,7,.88);box-shadow:0 8px 28px #0005;backdrop-filter:blur(12px)}
+.fh-tab{display:flex;align-items:center;justify-content:center;gap:9px;padding:11px 20px;border-radius:10px;background:transparent;color:#a7b9ad;font-size:11px;font-weight:950;letter-spacing:.1em;white-space:nowrap}
+.fh-tab>span{font-size:18px;line-height:1;color:#76ffad}.fh-tab i{font-size:8px;font-style:normal;letter-spacing:.08em;color:#9bb6a4;border:1px solid #284c35;border-radius:5px;padding:3px 5px}
+.fh-tab.active{background:linear-gradient(120deg,#123b27,#092116);border:1px solid rgba(120,255,154,.48);color:#f1fff5;box-shadow:inset 0 0 18px #00ff9a0b,0 0 16px #00ff9a0a}
+.fh-tab.active>span{color:#ffd34d}
+.fh-ranking-screen{max-width:860px;margin:0 auto;min-height:75vh;padding:clamp(20px,5vw,52px) 0}
+.fh-ranking-hero{position:relative;padding:clamp(22px,5vw,40px);border:1px solid rgba(120,255,154,.24);border-radius:22px;background:radial-gradient(ellipse at 100% 0%,rgba(0,255,154,.13),transparent 45%),linear-gradient(145deg,#071a10,#020805);overflow:hidden}
+.fh-ranking-hero:after{content:"♛";position:absolute;right:24px;top:12px;font-size:clamp(80px,18vw,150px);line-height:1;color:#ffd34d;opacity:.07;pointer-events:none}
+.fh-ranking-hero h2{font-size:clamp(40px,8vw,70px);margin:10px 0 12px;letter-spacing:-.06em}.fh-ranking-hero h2 span{color:#ffd34d}.fh-ranking-intro{max-width:520px;color:#a8b8ad;line-height:1.7;font-size:14px}
+.fh-ranking-hero .your-rank{position:relative;z-index:1;max-width:520px;margin:25px 0 0;padding:17px 20px;background:linear-gradient(100deg,#0b3823,#06180e);box-shadow:0 0 28px #00ff9a12}
+.fh-ranking-board{margin-top:16px;padding:clamp(16px,3vw,26px);border-radius:20px;background:linear-gradient(145deg,rgba(7,25,15,.97),rgba(2,9,5,.98));border-color:rgba(120,255,154,.22);box-shadow:0 18px 55px #0005}
+.fh-ranking-board-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.fh-ranking-board-head .eyebrow{display:inline-flex;margin:0 0 8px 8px}.fh-live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#78ff9a;box-shadow:0 0 12px #78ff9a}
+.fh-ranking-board-head h3{font-size:clamp(21px,4vw,29px);margin:0;letter-spacing:-.03em}.fh-ranking-board-head p{font-size:11px;color:#94a89a;margin:8px 0 0;line-height:1.5}
+.fh-rank-refresh-large{display:flex;align-items:center;gap:8px;flex-shrink:0;padding:10px 13px;border:1px solid #2e6945;border-radius:10px;background:#10271a;color:#7cffae;font-size:18px}.fh-rank-refresh-large span{font-size:10px;font-weight:850}
+.fh-ranking-list{display:flex;flex-direction:column;gap:5px;margin-top:12px}.fh-ranking-list li{display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px;border:1px solid transparent;border-radius:12px;background:rgba(255,255,255,.018)}
+.fh-ranking-list li:nth-child(1){background:linear-gradient(100deg,rgba(255,211,77,.13),rgba(255,211,77,.025));border-color:rgba(255,211,77,.2)}
+.fh-ranking-list .rank{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#10271b;color:#b5c8ba;font-size:12px;font-weight:950}.fh-ranking-list li:nth-child(1) .rank{background:linear-gradient(145deg,#ffe88a,#b77b19);color:#1a1507}.fh-ranking-list .player{font-size:13px;font-weight:750;line-height:1.35}.fh-ranking-list .score{grid-column:auto;grid-row:auto;margin:0;text-align:right;color:#7affad;font-size:12px;white-space:nowrap}.fh-ranking-list .me-marker{grid-column:2;grid-row:2;justify-self:start;padding:3px 7px;border-radius:5px;background:#ffd34d;color:#091108;font-size:8px;font-weight:1000;letter-spacing:.1em}.fh-ranking-list li.ranking-me{background:linear-gradient(100deg,rgba(0,255,154,.16),rgba(0,255,154,.035));border-color:#55ff9d}.fh-ranking-list .ranking-gap{display:block!important;text-align:center!important;color:#8cae97!important;padding:3px!important;border:0!important;background:transparent!important}.fh-ranking-footnote{margin:16px 2px 0;padding-top:13px;border-top:1px solid rgba(255,255,255,.07);font-size:10px;color:#7e9585;letter-spacing:.04em}
+#screen-result .ranking-head,#screen-result #ranking{display:none}
+@media(max-width:600px){.fh-tabs{width:100%;justify-content:stretch;margin-bottom:9px;border-radius:12px}.fh-tab{flex:1;padding:10px 9px;font-size:10px;gap:6px}.fh-tab i{font-size:7px}.fh-ranking-screen{padding:14px 0 28px}.fh-ranking-hero{padding:23px 18px;border-radius:16px}.fh-ranking-intro{font-size:13px}.fh-ranking-board{padding:13px;border-radius:15px}.fh-ranking-board-head{align-items:flex-start}.fh-ranking-board-head p{max-width:250px}.fh-rank-refresh-large{padding:9px;font-size:16px}.fh-rank-refresh-large span{display:none}.fh-ranking-list li{grid-template-columns:32px minmax(0,1fr) auto;gap:8px;padding:10px 7px}.fh-ranking-list .rank{width:29px;height:29px;font-size:10px;border-radius:8px}.fh-ranking-list .player{font-size:11px;overflow-wrap:anywhere}.fh-ranking-list .score{font-size:10px}.fh-ranking-list .me-marker{font-size:7px}}
+
 </style>
 </head>
 <body>
@@ -185,6 +208,11 @@ body:before{background:radial-gradient(ellipse at 50% 24%,#005a382b,transparent 
       <div class="brand-copy"><p class="eyebrow">FREEHAND COMUNIDAD</p><h1>FREEHAND <span>WORLD</span></h1></div>
       <div id="connection" class="status">Conectando Firebase…</div>
     </header>
+
+    <nav id="main-tabs" class="fh-tabs" aria-label="Navegación principal">
+      <button type="button" class="fh-tab active" data-tab="home"><span>⌂</span> INICIO</button>
+      <button type="button" class="fh-tab" data-tab="ranking"><span>♛</span> RANKING <i id="tab-rank-badge">SEMANAL</i></button>
+    </nav>
 
     <section id="screen-start" class="screen start-screen fh-home">
   <div class="fh-scene">
@@ -196,7 +224,6 @@ body:before{background:radial-gradient(ellipse at 50% 24%,#005a382b,transparent 
     <div class="fh-crown">♛</div>
     <div class="fh-title-lockup"><div class="fh-freehand">FREEHAND</div><div class="fh-world">WORLD</div><p>CONOCIMIENTO · MEMORIA · RAPIDEZ</p><b>UN SOLO DESAFÍO. UN RANKING.</b></div>
     <div class="fh-argentina-art"><span>🇦🇷</span><span>🧉</span><span>⚽</span><span>🏔️</span></div>
-    <aside class="fh-mini-ranking"><div class="fh-ranking-head"><div class="fh-ranking-title">▥ &nbsp; RANKING SEMANAL</div><button id="refresh-home" class="fh-rank-refresh" type="button" aria-label="Actualizar ranking">↻</button></div><ol id="ranking-home" class="ranking"><li class="empty">Cargando ranking…</li></ol><p id="home-rank-status" class="home-rank-status hidden"></p></aside>
     <div class="fh-challenge-cards">
       <div class="fh-challenge-card"><div class="fh-card-visual">📖<span>💡</span></div><b>CULTURA<br>ARGENTINA</b><small>15 PREGUNTAS · 15 SEGUNDOS</small></div>
       <div class="fh-challenge-card fh-memory-card"><div class="fh-card-visual">🧠<span>▦</span></div><b>MEMORIA<br>VISUAL</b><small>8 PAREJAS · TIEMPO LIMITADO</small></div>
@@ -206,6 +233,24 @@ body:before{background:radial-gradient(ellipse at 50% 24%,#005a382b,transparent 
     <div class="fh-feature-strip"><div><i>♟</i><span><b>APRENDÉ</b><small>DATOS Y CURIOSIDADES</small></span></div><div><i>♧</i><span><b>PONÉ A PRUEBA</b><small>TU MEMORIA</small></span></div><div><i>ϟ</i><span><b>RESPONDÉ</b><small>EN TIEMPO REAL</small></span></div><div><i>🏆</i><span><b>SUBÍ AL RANKING</b><small>COMPETÍ CADA SEMANA</small></span></div></div>
     <div class="fh-name-panel"><label for="real-name">INGRESÁ TU NOMBRE</label><div class="fh-name-input"><span>♟</span><input id="real-name" maxlength="80" minlength="3" autocomplete="name" placeholder="Tu nombre y apellido"></div><p class="poster-private-note">Tu nombre se guarda de forma privada.</p><div class="fh-public-alias">TU APODO EN EL RANKING <strong id="public-alias-preview">Preparando apodo…</strong></div></div>
   </div>
+</section>
+
+<section id="screen-ranking" class="screen hidden fh-ranking-screen">
+  <div class="fh-ranking-hero">
+    <p class="eyebrow">COMPETENCIA SEMANAL</p>
+    <h2>El ranking<span>.</span></h2>
+    <p class="fh-ranking-intro">Los mejores puntajes de esta semana. Jugá, superate y ganá tu lugar.</p>
+    <div id="tab-your-rank" class="your-rank hidden" aria-live="polite"></div>
+  </div>
+  <div class="fh-ranking-board panel">
+    <div class="fh-ranking-board-head">
+      <div><span class="fh-live-dot"></span><span class="eyebrow">EN VIVO</span><h3>Mejores jugadores</h3><p>Se muestra el mejor puntaje de cada jugador esta semana.</p></div>
+      <button id="refresh-tab" class="fh-rank-refresh-large" type="button" aria-label="Actualizar ranking">↻ <span>Actualizar</span></button>
+    </div>
+    <ol id="ranking-tab" class="ranking fh-ranking-list"><li class="empty">Cargando ranking…</li></ol>
+    <p id="tab-rank-status" class="fh-ranking-footnote">Ranking semanal · FREEHANDWORLD</p>
+  </div>
+  <button id="ranking-home-button" type="button" class="primary full">← VOLVER AL INICIO</button>
 </section>
 
 <section id="screen-game" class="screen hidden">
@@ -302,7 +347,12 @@ try {
   const icons = ["🧉","⚽","🦅","🌵","🎸","🏔️","🚂","⭐","🐧","🌞","🍇","🦊","🎭","🧉","🏆","🌊"];
   const msg = (id, text, type="") => { const el=$(id); el.textContent=text; el.className="message "+type; };
   const fmt = n => { n=Math.max(0,Math.floor(n)); return `${String(Math.floor(n/60)).padStart(2,"0")}:${String(n%60).padStart(2,"0")}`; };
-  const showScreen = id => { ["screen-start","screen-game","screen-result"].forEach(s=>$(s).classList.toggle("hidden",s!==id)); window.scrollTo({top:0,behavior:"smooth"}); };
+  const showScreen = id => {
+    ["screen-start","screen-ranking","screen-game","screen-result"].forEach(s=>$(s).classList.toggle("hidden",s!==id));
+    const tabs=$("main-tabs"); if(tabs) tabs.classList.toggle("hidden",!(["screen-start","screen-ranking"].includes(id)));
+    document.querySelectorAll(".fh-tab").forEach(b=>b.classList.toggle("active",(id==="screen-ranking"?b.dataset.tab==="ranking":b.dataset.tab==="home")));
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
   const shuffle = arr => arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
   function weekKey(date=new Date()) {
     const d = new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
@@ -331,7 +381,8 @@ try {
         $("start").disabled=false;
         msg("start-message","Listo. El desafío tiene tres etapas consecutivas.","success");
       }
-      await renderRanking("ranking-home");
+      // El ranking vive en una pestaña independiente; no se carga dentro de la portada.
+      
     } catch(e) {
       console.error("Inicialización:",e); setStatus("Error de conexión",false);
       msg("start-message",friendlyError(e),"error");
@@ -345,6 +396,7 @@ try {
   }
   async function renderRanking(target) {
     const list=$(target);
+    if(!list) return {rank:null,total:0,rows:[]};
     try {
       const snap=await window.fhDb.collection("publicScores").where("week","==",weekKey()).get();
       // Una fila por jugador: muestra solo su mejor puntaje de la semana, no cada partida histórica.
@@ -361,7 +413,8 @@ try {
       const myIndex=state.user ? rows.findIndex(r=>r.uid===state.user.uid) : -1;
       const myRank=myIndex>=0 ? myIndex+1 : null;
       const isHome=target==="ranking-home";
-      const visible=rows.slice(0,isHome?5:10);
+      const isTab=target==="ranking-tab";
+      const visible=rows.slice(0,isHome?0:(isTab?50:10));
       // Si el jugador no está en el top visible, agregamos su posición al final sin falsear el ranking.
       if(myIndex>=visible.length && myIndex>=0) visible.push({...rows[myIndex],_gap:true});
       list.replaceChildren();
@@ -387,6 +440,15 @@ try {
           if(myRank){personal.textContent=`Tu mejor posición: #${myRank}`;personal.classList.remove("hidden");}
           else {personal.textContent="Jugá para aparecer en el ranking";personal.classList.remove("hidden");}
         }
+      }
+      if(target==="ranking-tab"){
+        const personal=$("tab-your-rank");
+        if(personal){
+          personal.classList.remove("hidden");
+          if(myRank){personal.innerHTML=`<span class="your-rank-label">TU POSICIÓN ESTA SEMANA</span><strong>#${myRank}</strong><span class="your-rank-alias">${escapeHtml(state.alias||"Tu apodo")}</span>`;}
+          else {personal.innerHTML='<span class="your-rank-label">TU POSICIÓN</span><strong>—</strong><span class="your-rank-alias">Terminá una partida para aparecer acá</span>';}
+        }
+        const status=$("tab-rank-status"); if(status) status.textContent=rows.length?`${rows.length} jugador${rows.length===1?"":"es"} con puntaje esta semana`:"Todavía no hay resultados esta semana. Sé el primero en jugar.";
       }
       if(target==="ranking"){
         const personal=$("your-rank");
@@ -534,7 +596,7 @@ try {
     $("progress-bar").style.width="100%";showScreen("screen-result");msg("save-message","Guardando tu resultado…");
     saveScore(state.score,elapsed,accuracy).then(async()=>{
       const result=await renderRanking("ranking");
-      await renderRanking("ranking-home");
+      
       if(result.rank){
         msg("save-message",`Puntaje guardado. Esta semana quedaste en el puesto #${result.rank}.`,"success");
       } else {
@@ -561,7 +623,14 @@ try {
     startGame();
   });
   $("refresh").addEventListener("click",()=>renderRanking("ranking").catch(e=>msg("save-message",friendlyError(e),"error")));
-  $("refresh-home").addEventListener("click",()=>renderRanking("ranking-home").catch(e=>msg("start-message",friendlyError(e),"error")));
+  document.querySelectorAll(".fh-tab").forEach(button=>button.addEventListener("click",async()=>{
+    if(button.dataset.tab==="ranking"){
+      showScreen("screen-ranking");
+      try { await renderRanking("ranking-tab"); } catch(e) { $("tab-rank-status").textContent=friendlyError(e); }
+    } else showScreen("screen-start");
+  }));
+  $("refresh-tab").addEventListener("click",()=>renderRanking("ranking-tab").catch(e=>$("tab-rank-status").textContent=friendlyError(e)));
+  $("ranking-home-button").addEventListener("click",()=>showScreen("screen-start"));
   $("back-home").addEventListener("click",()=>{clearStageTimer();if(state.totalInterval)clearInterval(state.totalInterval);showScreen("screen-start");});
   init();
 })();
