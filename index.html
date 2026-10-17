@@ -199,6 +199,106 @@ body:before{background:radial-gradient(ellipse at 50% 24%,#005a382b,transparent 
 #screen-result .ranking-head,#screen-result #ranking{display:none}
 @media(max-width:600px){.fh-tabs{width:100%;justify-content:stretch;margin-bottom:9px;border-radius:12px}.fh-tab{flex:1;padding:10px 9px;font-size:10px;gap:6px}.fh-tab i{font-size:7px}.fh-ranking-screen{padding:14px 0 28px}.fh-ranking-hero{padding:23px 18px;border-radius:16px}.fh-ranking-intro{font-size:13px}.fh-ranking-board{padding:13px;border-radius:15px}.fh-ranking-board-head{align-items:flex-start}.fh-ranking-board-head p{max-width:250px}.fh-rank-refresh-large{padding:9px;font-size:16px}.fh-rank-refresh-large span{display:none}.fh-ranking-list li{grid-template-columns:32px minmax(0,1fr) auto;gap:8px;padding:10px 7px}.fh-ranking-list .rank{width:29px;height:29px;font-size:10px;border-radius:8px}.fh-ranking-list .player{font-size:11px;overflow-wrap:anywhere}.fh-ranking-list .score{font-size:10px}.fh-ranking-list .me-marker{font-size:7px}}
 
+
+/* v5: restaurar la composición Freehand en portada y ordenar el flujo móvil */
+@media(max-width:800px){
+  .shell{width:100%;max-width:100%;padding:5px 7px 22px}
+  .fh-home{overflow:visible}
+  .fh-scene{
+    min-height:0!important;height:auto!important;overflow:hidden;
+    padding:0 0 18px;border-radius:14px;
+    background:
+      radial-gradient(ellipse at 50% 19%,rgba(0,255,154,.19),transparent 36%),
+      radial-gradient(ellipse at 50% 40%,rgba(0,110,67,.19),transparent 48%),
+      linear-gradient(180deg,#020b06 0%,#010604 100%);
+  }
+  /* La marca y el globo quedan en una cabecera visual propia, no detrás de las tarjetas */
+  .fh-brand{top:14px;left:13px;z-index:8}
+  .fh-week-badge{top:13px;right:10px;z-index:8;max-width:48%}
+  .fh-globe{
+    top:70px;left:50%;width:min(78vw,390px);height:auto;aspect-ratio:1;
+    transform:translateX(-50%);opacity:.96;z-index:0;
+    background:radial-gradient(circle at 33% 25%,#58dca0 0,#176d4c 12%,#063a29 36%,#02150f 68%,#00100b 100%);
+  }
+  .fh-globe-grid{opacity:.8}
+  .fh-orbit{top:125px;width:108%;height:95px;z-index:1}
+  .fh-orbit-two{height:135px}
+  .fh-crown{top:115px;font-size:37px;z-index:3}
+  .fh-title-lockup{top:175px;z-index:4;width:100%;padding:0 6px}
+  .fh-freehand{font-size:clamp(38px,10.4vw,54px);letter-spacing:-.075em}
+  .fh-world{font-size:clamp(50px,13vw,68px);letter-spacing:-.08em}
+  .fh-title-lockup p{font-size:7px;letter-spacing:.12em;margin:9px 0 6px}
+  .fh-title-lockup>b{font-size:8px;letter-spacing:.025em}
+  .fh-argentina-art{top:180px;left:8px;z-index:3;font-size:27px;gap:8px}
+  .fh-argentina-art span:nth-child(2),.fh-argentina-art span:nth-child(3){margin-left:7px}
+  /* En celular el ranking tiene su pestaña propia: quitamos el mini panel lateral */
+  .fh-mini-ranking{display:none!important}
+  /* Las tarjetas pasan al flujo normal debajo del globo */
+  .fh-challenge-cards{
+    position:relative!important;top:auto!important;left:auto!important;
+    transform:none!important;width:calc(100% - 24px)!important;
+    margin:365px auto 0!important;display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important;
+    z-index:5;
+  }
+  .fh-challenge-card{
+    min-width:0;min-height:132px;height:auto;padding:10px 4px 9px;
+    transform:none!important;border-radius:11px;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+    background:linear-gradient(155deg,rgba(4,24,14,.97),rgba(1,7,4,.98));
+  }
+  .fh-challenge-card:nth-child(2){transform:none!important}
+  .fh-card-visual{height:54px;min-height:54px;font-size:30px;width:100%}
+  .fh-card-visual span{font-size:13px;right:9%;top:0}
+  .fh-challenge-card>b{font-size:clamp(7px,2vw,9px);line-height:1.25;letter-spacing:.02em}
+  .fh-challenge-card>small{font-size:6px;line-height:1.35;margin-top:7px;overflow-wrap:anywhere}
+  /* Botón y beneficios ahora ocupan su propio espacio y nunca se superponen */
+  .fh-cta-area{
+    position:relative!important;top:auto!important;left:auto!important;
+    transform:none!important;width:calc(100% - 34px)!important;
+    margin:24px auto 0!important;z-index:7;
+  }
+  .fh-cta{padding:16px 8px;font-size:clamp(13px,3.6vw,16px);letter-spacing:.025em;white-space:normal}
+  .fh-cta-area .message{font-size:10px;line-height:1.4;min-height:0;margin:12px 4px 0}
+  .fh-feature-strip{
+    position:relative!important;top:auto!important;left:auto!important;right:auto!important;
+    width:calc(100% - 24px);margin:24px auto 0!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:14px 9px;padding:14px 10px;z-index:4;
+  }
+  .fh-feature-strip>div{gap:7px}
+  .fh-feature-strip i{flex:0 0 31px;height:31px;font-size:16px}
+  .fh-feature-strip b{font-size:8px;line-height:1.25}
+  .fh-feature-strip small{font-size:7px;line-height:1.25}
+  .fh-name-panel{
+    position:relative!important;top:auto!important;left:auto!important;
+    transform:none!important;width:calc(100% - 24px)!important;
+    margin:24px auto 0!important;padding:18px 13px;z-index:5;
+  }
+  .fh-name-panel label{font-size:11px}
+  .fh-name-input input{font-size:16px;min-width:0}
+  .fh-public-alias{font-size:8px;flex-wrap:wrap}
+}
+@media(max-width:430px){
+  .fh-week-badge{padding:7px 8px;gap:5px}
+  .fh-week-badge>span{font-size:16px}
+  .fh-week-badge b{font-size:7px}
+  .fh-week-badge small{font-size:5.5px}
+  .fh-globe{top:75px;width:min(84vw,355px)}
+  .fh-title-lockup{top:178px}
+  .fh-crown{top:119px}
+  .fh-argentina-art{top:185px;left:5px;font-size:24px}
+  .fh-challenge-cards{margin-top:360px!important;gap:5px!important;width:calc(100% - 16px)!important}
+  .fh-challenge-card{min-height:128px;padding:9px 2px}
+  .fh-card-visual{height:48px;min-height:48px;font-size:27px}
+  .fh-challenge-card>b{font-size:7px}
+  .fh-challenge-card>small{font-size:5.5px}
+  .fh-cta-area{width:calc(100% - 24px)!important;margin-top:22px!important}
+}
+@media(min-width:801px){
+  .fh-scene{min-height:1120px}
+}
+
 </style>
 </head>
 <body>
