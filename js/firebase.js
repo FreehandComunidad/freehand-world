@@ -50,30 +50,31 @@
     async submitScore(result) {
       await this.init();
       const now = new Date();
-      // El modo de prueba habilita el envío cualquier día. Las reglas de Firestore publicadas siguen siendo la autorización real.
       const TEST_MODE = true;
       if (!TEST_MODE && now.getDay() !== 6) throw new Error("La arena solo acepta resultados los sábados.");
       const week = this.weekKey(now);
       const mode = String(result.mode);
+      if (!['quiz', 'memory', 'truth'].includes(mode)) throw new Error("Modo de juego inválido.");
       const score = Math.max(0, Math.min(5000, Math.floor(Number(result.score) || 0)));
       const attemptId = `${this.uid}_${week}_${mode}`;
       const scoreRef = this.db.collection("publicScores").doc(attemptId);
       const attemptRef = this.db.collection("attempts").doc(attemptId);
-      const privateRef = this.db.collection("privateProfiles").doc(this.uid);
       const publicProfile = JSON.parse(localStorage.getItem("fhw_profile") || "null");
-      const alias = String(publicProfile?.alias || "Jugador").slice(0, 40);
-      await this.db.runTransaction(async tx => {
-        const existing = await tx.get(attemptRef);
-        if (existing.exists) throw new Error("Ya usaste tu intento de este modo esta semana.");
-        tx.set(attemptRef, {
-          uid: this.uid, week, mode, score,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        tx.set(scoreRef, {
-          uid: this.uid, week, mode, score, alias,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      });
+      const alias = String(publicProfile?.alias || result.alias || "Jugador").trim().slice(0, 40) || "Jugador";
+
+      // Batch atómico: no intenta leer un documento inexistente de attempts.
+      // Las reglas create-only impiden volver a escribir sobre el mismo intento.
+      const batch = this.db.batch();
+      batch.set(attemptRef, { uid: this.uid, week, mode, score, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      batch.set(scoreRef, { uid: this.uid, week, mode, score, alias, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      try {
+        await batch.commit();
+      } catch (error) {
+        if (error && error.code === 'permission-denied') {
+          throw new Error("Firebase rechazó el envío. Puede que ya hayas usado este intento o que las reglas de Firestore no permitan guardarlo.");
+        }
+        throw error;
+      }
       return {week, score};
     },
     listenLeaderboard() {
@@ -81,10 +82,11 @@
       const week = this.weekKey();
       this.db.collection("publicScores")
         .where("week", "==", week)
-        .orderBy("score", "desc")
-        .limit(25)
+        .limit(100)
         .onSnapshot(snapshot => {
-          const rows = snapshot.docs.map(doc => doc.data());
+          const rows = snapshot.docs.map(doc => doc.data())
+            .sort((a, b) => Number(b.score || 0) - Number(a.score || 0))
+            .slice(0, 25);
           localStorage.setItem("fhw_remote_scores", JSON.stringify(rows));
           window.dispatchEvent(new CustomEvent("fhw-leaderboard", {detail: rows}));
         }, error => {

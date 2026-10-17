@@ -33,7 +33,7 @@
     <button class="mode-card wide" data-mode="truth"><span class="mode-top"><span class="mode-icon">✓?</span><span class="mode-number">03</span></span><strong>¿Verdad o chamuyo?</strong><span class="mode-desc">Seis afirmaciones. Pensá antes de responder.</span><span class="mode-cta">ENTRAR ↗</span></button>
   </div>
   <div class="profile-strip"><div class="avatar" id="avatarGlyph">?</div><div class="profile-copy"><span class="stat-label">TU IDENTIDAD PÚBLICA</span><strong id="publicAlias">Todavía sin registrar</strong><span id="profileHint">Ingresá tus datos antes de jugar</span></div><button class="outline-btn" id="editProfile">PERFIL ↗</button></div>
-  <div class="leaderboard-card"><div class="section-head compact"><div><div class="eyebrow gold">TOP DE LA ARENA</div><h2>Ranking semanal</h2></div><span class="live-label"><i></i> EN VIVO</span></div><div id="leaderboard" class="leaderboard-list"></div><p class="fine-print">Los alias son fantasiosos. Esta vista de prueba solo muestra puntajes guardados en este navegador.</p></div>
+  <div class="leaderboard-card"><div class="section-head compact"><div><div class="eyebrow gold">TOP DE LA ARENA</div><h2>Ranking semanal</h2></div><span class="live-label"><i></i> EN VIVO</span></div><div id="leaderboard" class="leaderboard-list"></div><p class="fine-print">Se muestran puntajes públicos de Firebase para la semana actual. Si todavía no hay resultados online, esta lista permanecerá vacía.</p></div>
 </section>
 
 <section id="profileScreen" class="screen narrow-screen">
@@ -43,7 +43,7 @@
   <form id="profileForm" class="profile-form">
     <label for="realName">NOMBRE REAL <span>(privado en esta prueba)</span></label><input id="realName" required minlength="2" maxlength="50" placeholder="Tu nombre" autocomplete="name">
     <label for="playerTag">CÓDIGO DE JUGADOR <span>(opcional)</span></label><input id="playerTag" maxlength="24" placeholder="Ej. FH-4821">
-    <div class="privacy-note"><span>◈</span><p>En esta versión, los datos quedan guardados solo en este dispositivo. Para que el administrador vea el nombre real y los demás solo un alias, hay que conectar un backend seguro con Firebase.</p></div>
+    <div class="privacy-note"><span>◈</span><p>El nombre real se guarda en el perfil privado de Firebase. En el ranking público solo se muestra tu alias y el puntaje.</p></div>
     <button class="button button-gold full" type="submit">GENERAR MI IDENTIDAD ↗</button>
   </form>
 </section>
@@ -60,7 +60,7 @@
   <h1 id="resultTitle" class="result-heading">Buen juego.</h1><p id="resultSubtitle" class="lead centered">Tu resultado está listo.</p>
   <div class="score-panel"><span class="stat-label">PUNTAJE FINAL</span><strong id="finalScore">0</strong><div class="result-stats"><div><span>ACIERTOS</span><b id="finalCorrect">0/0</b></div><div><span>MEJOR RACHA</span><b id="finalStreak">0</b></div><div><span>XP DE PRUEBA</span><b id="finalXp">0</b></div></div></div>
   <div class="alias-panel"><span class="stat-label">ASÍ TE VE EL RESTO</span><strong id="resultAlias">—</strong><span id="resultCode" class="code-text"></span></div>
-  <button class="button button-gold full" id="saveScore">GUARDAR RESULTADO LOCAL</button><button class="button button-primary full" id="goHome">VOLVER A LA ARENA</button>
+  <button class="button button-gold full" id="saveScore">ENVIAR RESULTADO AL RANKING</button><button class="button button-primary full" id="goHome">VOLVER A LA ARENA</button>
   <p class="fine-print">MODO PRUEBA ACTIVO: se puede jugar y enviar resultados cualquier día. Antes de abrir al público, desactivá TEST_MODE en js/game.js y js/firebase.js. El límite de intentos requiere validación de producción.</p>
 </section>
 </main>

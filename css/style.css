@@ -15,3 +15,8 @@ button,input{font:inherit}button{cursor:pointer}.app-shell{position:relative;z-i
 footer{margin-top:auto;padding:19px 0 18px;border-top:1px solid #1d2d22;display:flex;justify-content:space-between;gap:10px;color:#5e7063;font-size:8px;letter-spacing:1px}
 @media(min-width:650px){.app-shell{padding-left:36px;padding-right:36px}.hero{padding-top:12px}.season-card{padding:27px 30px}.mode-card{min-height:190px;padding:21px}.game-content{padding:36px}.game-canvas,.game-content{min-height:420px}}
 @media(max-width:460px){.app-shell{padding-left:17px;padding-right:17px}.topbar{height:74px}.screen{padding-top:25px}.hero h1{letter-spacing:-2.7px}.season-card{padding:19px;min-height:170px}.mode-card{min-height:160px;padding:13px}.mode-card strong{font-size:13px}.mode-desc{font-size:10px}.mode-top{margin-bottom:15px}.mode-cta{font-size:8px}.profile-strip{padding:12px;gap:9px}.outline-btn{padding:8px;font-size:8px}.game-content{padding:22px 15px}.game-canvas,.game-content{min-height:370px}.answers{grid-template-columns:1fr}.answer{min-height:52px}.memory-board{gap:6px}.memory-card{border-radius:8px}.memory-card:before{inset:3px;border-radius:5px}.memory-card .card-back{font-size:17px}.truth-actions button{font-size:10px}.question-title{font-size:28px}footer{font-size:7px}}
+/* Ajustes de rendimiento, accesibilidad y pantallas táctiles */
+:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ambient{filter:blur(60px)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

@@ -64,7 +64,7 @@ function renderHome(){
  document.querySelectorAll("[data-mode]").forEach(b=>{const used=attempts().includes(b.dataset.mode);b.disabled=!saturday||used;const cta=b.querySelector(".mode-cta");cta.textContent=!saturday?"ABRE EL SÁBADO":used?"INTENTO UTILIZADO":TEST_MODE?"PROBAR AHORA ↗":"ENTRAR ↗";});
  $("publicAlias").textContent=p?p.alias:"Todavía sin registrar";$("avatarGlyph").textContent=p?p.alias[0]:"?";$("profileHint").textContent=p?`Código ${p.code} · identidad privada`:"Ingresá tus datos antes de jugar";
  const remote=read("fhw_remote_scores",[]);
- const scores=remote.length ? remote : read("fhw_scores",[]).sort((a,b)=>b.score-a.score);
+ const scores=remote;
  $("leaderboard").innerHTML=scores.length?scores.slice(0,5).map((x,i)=>`<div class="leader-row"><span class="leader-rank">${String(i+1).padStart(2,"0")}</span><span>${escapeHtml(x.alias || "Jugador")}</span><span class="leader-score">${Number(x.score||0).toLocaleString("es-AR")} pts</span></div>`).join(""):'<div class="leader-row"><span class="leader-rank">—</span><span>Esperando los primeros resultados</span><span class="leader-score">—</span></div>';
 }
 function attempts(){return read("fhw_attempts",[])}
@@ -131,7 +131,7 @@ function finish(){
  $("resultTitle").textContent=score>=800?"¡Nivel de leyenda!":score>=450?"¡Muy buen juego!":"La próxima es tuya.";
  $("resultSubtitle").textContent=mode==="memory"?(matches===8?"Completaste todos los pares.":"Cada intento te entrena."):`Completaste ${modes[mode].toLowerCase()}.`;
  $("finalScore").textContent=score.toLocaleString("es-AR");$("finalCorrect").textContent=`${correct}/${total}`;$("finalStreak").textContent=bestStreak;$("finalXp").textContent=xp;
- $("resultAlias").textContent=p?.alias||"Jugador";$("resultCode").textContent=p?.code||"";$("saveScore").textContent="GUARDAR RESULTADO LOCAL";show("resultScreen")
+ $("resultAlias").textContent=p?.alias||"Jugador";$("resultCode").textContent=p?.code||"";$("saveScore").textContent="ENVIAR RESULTADO AL RANKING";show("resultScreen")
 }
 async function saveResult(){
  if(!pendingResult)return;
@@ -162,6 +162,7 @@ window.addEventListener("fhw-leaderboard", e=>{
  const rows=e.detail||[];
  $("leaderboard").innerHTML=rows.length?rows.slice(0,5).map((x,i)=>`<div class="leader-row"><span class="leader-rank">${String(i+1).padStart(2,"0")}</span><span>${escapeHtml(x.alias||"Jugador")}</span><span class="leader-score">${Number(x.score||0).toLocaleString("es-AR")} pts</span></div>`).join(""):'<div class="leader-row"><span class="leader-rank">—</span><span>Esperando los primeros resultados</span><span class="leader-score">—</span></div>';
 });
-window.addEventListener("fhw-firebase-error", e=>console.warn("Firebase:",e.detail));
+window.addEventListener("fhw-firebase-ready",()=>{const d=$("dayStatus");if(d && !TEST_MODE)d.textContent=isSaturday()?"ARENA ABIERTA":"ARENA CERRADA";});
+window.addEventListener("fhw-firebase-error", e=>{console.warn("Firebase:",e.detail);const d=$("dayStatus");if(d)d.textContent="SIN CONEXIÓN";});
 renderHome();
 })();
