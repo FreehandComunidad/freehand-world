@@ -44,6 +44,138 @@ body:before{background:radial-gradient(ellipse at 50% 24%,#005a382b,transparent 
 }
 @media(max-width:390px){.fh-scene{min-height:1040px}.fh-mini-ranking{width:116px;top:248px}.fh-challenge-cards{top:378px}.fh-cta-area{top:520px}.fh-feature-strip{top:600px}.fh-name-panel{top:730px}.fh-title-lockup p{letter-spacing:.08em}}
 
+
+/* Ajustes v3: ranking semanal limpio y posición personal visible */
+.fh-mini-ranking .ranking{margin-top:6px}
+.fh-mini-ranking .ranking li{display:grid;grid-template-columns:20px minmax(0,1fr);column-gap:5px;align-items:center;position:relative;white-space:normal;padding:7px 0}
+.fh-mini-ranking .ranking .player{font-size:9px;line-height:1.25;overflow-wrap:anywhere}
+.fh-mini-ranking .ranking .score{grid-column:2;font-size:8px;text-align:left;margin-top:2px}
+.fh-mini-ranking .ranking .rank{width:auto;font-size:9px}
+.fh-mini-ranking .ranking .me-marker{grid-column:2;justify-self:start;margin-top:3px;padding:2px 5px;border-radius:5px;background:#ffd34d;color:#091108;font-size:7px;font-weight:1000;letter-spacing:.08em}
+.fh-mini-ranking .ranking li.ranking-me{background:#0b3924;border:1px solid #55ff9d;border-radius:6px;padding:7px 5px}
+.fh-mini-ranking .ranking-gap{display:block!important;text-align:center!important;color:#8cae97!important;padding:2px!important;border:0!important;font-size:10px!important}
+.home-rank-status{font-size:9px;color:#ffd34d;border-top:1px solid #ffffff19;padding-top:7px;margin:6px 0 0;letter-spacing:.03em}
+.your-rank{display:flex;align-items:center;gap:13px;padding:15px 17px;margin:14px 0 8px;border:1px solid #57ff9e;border-radius:13px;background:linear-gradient(110deg,#06351f,#06170e);box-shadow:0 0 24px #00ff9a16}
+.your-rank-label{font-size:10px;font-weight:900;letter-spacing:.12em;color:#9fceb0;flex:1}
+.your-rank>strong{font-size:32px;color:#ffd34d;line-height:1}
+.your-rank-alias{font-size:12px;font-weight:800;color:#78ff9a}
+.ranking li.ranking-me{background:#0b3924;border:1px solid #55ff9d;border-radius:9px;padding:12px 8px}
+.ranking .me-marker{padding:4px 7px;border-radius:6px;background:#ffd34d;color:#091108;font-size:9px;font-weight:1000;letter-spacing:.08em}
+.ranking-gap{justify-content:center!important;color:#8cae97!important;padding:4px!important;border:0!important}
+@media(max-width:800px){
+ .fh-mini-ranking{top:250px;right:7px;width:clamp(124px,31vw,160px);max-height:210px;overflow:hidden}
+ .fh-mini-ranking .ranking li{grid-template-columns:16px minmax(0,1fr);column-gap:4px;padding:5px 0}
+ .fh-mini-ranking .ranking .player{font-size:8px}
+ .fh-mini-ranking .ranking .score{font-size:7px}
+ .fh-mini-ranking .ranking .rank{font-size:8px}
+ .fh-mini-ranking .ranking .me-marker{font-size:6px}
+ .home-rank-status{font-size:8px}
+ .fh-challenge-cards{width:calc(100% - 30px);gap:6px}
+ .fh-challenge-card{min-width:0}
+ .fh-challenge-card>small{overflow-wrap:anywhere}
+ .fh-name-panel{top:748px}
+}
+@media(max-width:390px){
+ .fh-mini-ranking{width:116px;top:248px;right:6px}
+ .fh-mini-ranking .fh-ranking-title{font-size:6.5px;letter-spacing:.02em}
+ .fh-mini-ranking .ranking .player{font-size:7px}
+ .fh-mini-ranking .ranking .score{font-size:6.5px}
+ .fh-challenge-cards{width:calc(100% - 20px);gap:4px}
+ .fh-challenge-card{padding-left:2px;padding-right:2px}
+ .fh-challenge-card>small{font-size:5.5px}
+ .fh-name-panel{top:730px}
+}
+
+
+/* V4 — ranking premium + layout mobile sin superposiciones */
+.fh-mini-ranking{
+  width:250px;right:24px;top:145px;padding:16px 15px;
+  border:1px solid rgba(89,255,177,.58);border-radius:16px;
+  background:linear-gradient(145deg,rgba(5,29,19,.96),rgba(1,8,5,.97));
+  box-shadow:0 14px 42px rgba(0,0,0,.48),0 0 25px rgba(0,255,154,.12),inset 0 1px rgba(255,255,255,.05);
+  backdrop-filter:blur(14px);transform:none
+}
+.fh-ranking-head{padding-bottom:10px;border-bottom:1px solid rgba(120,255,180,.17);margin-bottom:5px}
+.fh-ranking-title{font-size:10px;letter-spacing:.13em;color:#80ffc0;margin:0}
+.fh-rank-refresh{width:29px;height:29px;border-radius:9px;font-size:15px;display:grid;place-items:center;transition:transform .2s,background .2s}
+.fh-rank-refresh:hover{transform:rotate(35deg);background:#19432c}
+.fh-mini-ranking .ranking{display:flex;flex-direction:column;gap:4px;margin:8px 0 0}
+.fh-mini-ranking .ranking li{display:grid;grid-template-columns:26px minmax(0,1fr);column-gap:8px;align-items:center;position:relative;white-space:normal;padding:9px 8px;border:1px solid transparent;border-radius:9px;background:rgba(255,255,255,.018)}
+.fh-mini-ranking .ranking li:nth-child(1){background:linear-gradient(100deg,rgba(255,211,77,.13),rgba(255,211,77,.025));border-color:rgba(255,211,77,.18)}
+.fh-mini-ranking .ranking .rank{display:grid;place-items:center;width:25px;height:25px;border-radius:8px;background:#10271b;color:#9db5a5;font-size:10px;font-weight:900}
+.fh-mini-ranking .ranking li:nth-child(1) .rank{background:linear-gradient(145deg,#ffe88a,#b77b19);color:#1a1507}
+.fh-mini-ranking .ranking .player{font-size:10px;line-height:1.25;overflow-wrap:anywhere;color:#e9fff0;font-weight:700}
+.fh-mini-ranking .ranking .score{grid-column:2;font-size:9px;text-align:left;margin-top:3px;color:#71ffad;font-weight:900}
+.fh-mini-ranking .ranking .me-marker{grid-column:2;justify-self:start;margin-top:4px;padding:3px 7px;border-radius:5px;background:#ffd34d;color:#091108;font-size:7px;font-weight:1000;letter-spacing:.1em}
+.fh-mini-ranking .ranking li.ranking-me{background:linear-gradient(110deg,rgba(0,255,154,.18),rgba(0,255,154,.05));border:1px solid #55ff9d}
+.fh-mini-ranking .ranking-gap{display:block!important;text-align:center!important;color:#8cae97!important;padding:2px!important;border:0!important;font-size:10px!important;background:transparent!important}
+.home-rank-status{font-size:9px;color:#ffd34d;border-top:1px solid rgba(255,255,255,.1);padding-top:9px;margin:8px 0 0;letter-spacing:.03em}
+.your-rank{display:flex;align-items:center;gap:13px;padding:16px 18px;margin:14px 0 8px;border:1px solid #57ff9e;border-radius:15px;background:linear-gradient(110deg,#06351f,#06170e);box-shadow:0 0 24px #00ff9a16}
+.your-rank-label{font-size:10px;font-weight:900;letter-spacing:.12em;color:#9fceb0;flex:1}
+.your-rank>strong{font-size:32px;color:#ffd34d;line-height:1}
+.your-rank-alias{font-size:12px;font-weight:800;color:#78ff9a}
+.ranking li.ranking-me{background:#0b3924;border:1px solid #55ff9d;border-radius:9px;padding:12px 8px}
+.ranking .me-marker{padding:4px 7px;border-radius:5px;background:#ffd34d;color:#091108;font-size:8px;font-weight:1000;letter-spacing:.1em}
+
+/* En móvil el contenido pasa a flujo normal: ningún bloque pisa al siguiente */
+@media(max-width:800px){
+  .shell{padding:5px}
+  .fh-scene{min-height:0!important;height:auto!important;padding:0 10px 24px;overflow:hidden;border-radius:13px}
+  .fh-brand{top:12px;left:12px}
+  .fh-week-badge{top:12px;right:10px}
+  .fh-globe{top:60px;width:min(78vw,370px);height:min(78vw,370px);min-width:0;min-height:0}
+  .fh-orbit{top:105px;width:95vw;height:105px}
+  .fh-orbit-two{height:145px}
+  .fh-crown{top:87px;font-size:40px}
+  .fh-title-lockup{top:150px}
+  .fh-freehand{font-size:clamp(38px,9.5vw,66px)}
+  .fh-world{font-size:clamp(48px,12vw,82px)}
+  .fh-title-lockup p{font-size:7px;letter-spacing:.14em;margin:10px 0 6px}
+  .fh-title-lockup>b{font-size:8px;letter-spacing:.04em}
+  .fh-argentina-art{top:150px;left:0;font-size:29px;gap:7px}
+  .fh-argentina-art .flag{font-size:36px}
+  .fh-argentina-art .ball{margin-left:8px}
+  .fh-mini-ranking{position:relative;top:auto;right:auto;left:auto;width:100%;max-width:440px;margin:365px auto 0;padding:13px 13px 11px;transform:none}
+  .fh-ranking-title{font-size:10px}
+  .fh-mini-ranking .ranking li{grid-template-columns:28px minmax(0,1fr) auto;padding:8px}
+  .fh-mini-ranking .ranking .player{font-size:11px}
+  .fh-mini-ranking .ranking .score{grid-column:3;grid-row:1 / span 2;text-align:right;font-size:10px;align-self:center;margin:0}
+  .fh-mini-ranking .ranking .me-marker{grid-column:2;grid-row:2}
+  .fh-challenge-cards{position:relative;top:auto;left:auto;transform:none;width:100%;margin:18px auto 0;gap:7px}
+  .fh-challenge-card{min-width:0;min-height:140px;padding:9px 4px;border-radius:10px}
+  .fh-challenge-cards .fh-challenge-card:nth-child(2){transform:none}
+  .fh-card-visual{height:62px;font-size:33px}
+  .fh-card-visual span{font-size:15px}
+  .fh-challenge-card>b{font-size:8px;line-height:1.25}
+  .fh-challenge-card>small{font-size:6px;line-height:1.4;white-space:normal}
+  .fh-cta-area{position:relative;top:auto;left:auto;transform:none;width:94%;margin:24px auto 0}
+  .fh-cta{padding:15px 8px;font-size:clamp(12px,3.5vw,15px);letter-spacing:.02em}
+  .fh-cta-area .message{font-size:10px;line-height:1.4}
+  .fh-feature-strip{position:relative;top:auto;left:auto;right:auto;margin:18px 0 0;grid-template-columns:repeat(2,minmax(0,1fr));padding:12px 9px;gap:13px}
+  .fh-feature-strip>div{gap:7px}
+  .fh-feature-strip i{flex-basis:31px;height:31px;font-size:15px}
+  .fh-feature-strip b{font-size:8px}
+  .fh-feature-strip small{font-size:7px;line-height:1.3}
+  .fh-name-panel{position:relative;top:auto;left:auto;transform:none;width:100%;margin:18px auto 0;padding:18px 13px;border-radius:13px}
+  .fh-name-panel label{font-size:11px}
+  .fh-name-input{margin-top:12px}
+  .fh-name-input input{font-size:16px;padding:12px 0}
+  .fh-public-alias{font-size:8px}
+}
+@media(max-width:390px){
+ .fh-mini-ranking{margin-top:345px}
+ .fh-challenge-cards{grid-template-columns:1fr;gap:9px}
+ .fh-challenge-card{min-height:112px;display:grid;grid-template-columns:72px minmax(0,1fr);grid-template-rows:auto auto;align-items:center;text-align:left;padding:10px 14px;column-gap:10px}
+ .fh-card-visual{grid-row:1 / span 2;height:72px}
+ .fh-challenge-card>b{font-size:11px}
+ .fh-challenge-card>small{font-size:8px;margin-top:4px}
+ .fh-title-lockup{top:160px}
+ .fh-freehand{font-size:37px}
+ .fh-world{font-size:49px}
+ .fh-title-lockup p{font-size:6px;letter-spacing:.08em}
+ .fh-argentina-art{top:155px;font-size:25px}
+}
+
 </style>
 </head>
 <body>
@@ -64,7 +196,7 @@ body:before{background:radial-gradient(ellipse at 50% 24%,#005a382b,transparent 
     <div class="fh-crown">♛</div>
     <div class="fh-title-lockup"><div class="fh-freehand">FREEHAND</div><div class="fh-world">WORLD</div><p>CONOCIMIENTO · MEMORIA · RAPIDEZ</p><b>UN SOLO DESAFÍO. UN RANKING.</b></div>
     <div class="fh-argentina-art"><span>🇦🇷</span><span>🧉</span><span>⚽</span><span>🏔️</span></div>
-    <aside class="fh-mini-ranking"><div class="fh-ranking-head"><div class="fh-ranking-title">▥ &nbsp; RANKING SEMANAL</div><button id="refresh-home" class="fh-rank-refresh" type="button" aria-label="Actualizar ranking">↻</button></div><ol id="ranking-home" class="ranking"><li class="empty">Cargando ranking…</li></ol></aside>
+    <aside class="fh-mini-ranking"><div class="fh-ranking-head"><div class="fh-ranking-title">▥ &nbsp; RANKING SEMANAL</div><button id="refresh-home" class="fh-rank-refresh" type="button" aria-label="Actualizar ranking">↻</button></div><ol id="ranking-home" class="ranking"><li class="empty">Cargando ranking…</li></ol><p id="home-rank-status" class="home-rank-status hidden"></p></aside>
     <div class="fh-challenge-cards">
       <div class="fh-challenge-card"><div class="fh-card-visual">📖<span>💡</span></div><b>CULTURA<br>ARGENTINA</b><small>15 PREGUNTAS · 15 SEGUNDOS</small></div>
       <div class="fh-challenge-card fh-memory-card"><div class="fh-card-visual">🧠<span>▦</span></div><b>MEMORIA<br>VISUAL</b><small>8 PAREJAS · TIEMPO LIMITADO</small></div>
@@ -97,6 +229,7 @@ body:before{background:radial-gradient(ellipse at 50% 24%,#005a382b,transparent 
         <div><small>RESPUESTAS</small><strong id="answers-count">0/35</strong></div>
       </div>
       <p id="save-message" class="message">Guardando resultado…</p>
+      <div id="your-rank" class="your-rank hidden" aria-live="polite"></div>
       <div class="section-head ranking-head"><div><p class="eyebrow">EN VIVO</p><h3>Ranking semanal</h3></div><button id="refresh" class="secondary">Actualizar</button></div>
       <ol id="ranking" class="ranking"><li class="empty">Cargando ranking…</li></ol>
       <button id="back-home" class="primary full">VOLVER AL INICIO</button>
@@ -214,11 +347,64 @@ try {
     const list=$(target);
     try {
       const snap=await window.fhDb.collection("publicScores").where("week","==",weekKey()).get();
-      const rows=snap.docs.map(doc=>doc.data()).sort((a,b)=>(Number(b.score)||0)-(Number(a.score)||0)).slice(0,10);
+      // Una fila por jugador: muestra solo su mejor puntaje de la semana, no cada partida histórica.
+      const bestByPlayer = new Map();
+      snap.docs.forEach(doc => {
+        const r = doc.data();
+        const key = r.uid || `legacy:${r.alias || doc.id}`;
+        const previous = bestByPlayer.get(key);
+        if (!previous || (Number(r.score)||0) > (Number(previous.score)||0)) {
+          bestByPlayer.set(key, {...r, _docId:doc.id});
+        }
+      });
+      const rows=[...bestByPlayer.values()].sort((a,b)=>(Number(b.score)||0)-(Number(a.score)||0));
+      const myIndex=state.user ? rows.findIndex(r=>r.uid===state.user.uid) : -1;
+      const myRank=myIndex>=0 ? myIndex+1 : null;
+      const isHome=target==="ranking-home";
+      const visible=rows.slice(0,isHome?5:10);
+      // Si el jugador no está en el top visible, agregamos su posición al final sin falsear el ranking.
+      if(myIndex>=visible.length && myIndex>=0) visible.push({...rows[myIndex],_gap:true});
       list.replaceChildren();
-      if(!rows.length){const li=document.createElement("li");li.className="empty";li.textContent="Todavía no hay resultados esta semana.";list.appendChild(li);return;}
-      rows.forEach((r,i)=>{const li=document.createElement("li");const rank=document.createElement("span");rank.className="rank";rank.textContent=String(i+1).padStart(2,"0");const name=document.createElement("span");name.className="player";name.textContent=r.alias||"Jugador";const score=document.createElement("span");score.className="score";score.textContent=`${Number(r.score)||0} pts`;li.append(rank,name,score);list.appendChild(li);});
-    } catch(e) { console.error("Lectura ranking:",e); list.innerHTML='<li class="empty">No se pudo cargar el ranking. Revisá la consola.</li>'; throw e; }
+      if(!rows.length){
+        const li=document.createElement("li");li.className="empty";li.textContent="Todavía no hay resultados esta semana.";list.appendChild(li);
+      } else {
+        visible.forEach((r,i)=>{
+          if(r._gap){const gap=document.createElement("li");gap.className="ranking-gap";gap.textContent="···";list.appendChild(gap);}
+          const actualIndex=rows.findIndex(row=>(row.uid||`legacy:${row.alias||row._docId}`)===(r.uid||`legacy:${r.alias||r._docId}`));
+          const mine=!!state.user && r.uid===state.user.uid;
+          const li=document.createElement("li");li.className=mine?"ranking-me":"";
+          const rank=document.createElement("span");rank.className="rank";rank.textContent=String(actualIndex+1).padStart(2,"0");
+          const name=document.createElement("span");name.className="player";name.textContent=mine?(state.alias||r.alias||"Vos"):(r.alias||"Jugador");
+          const score=document.createElement("span");score.className="score";score.textContent=`${Number(r.score)||0} pts`;
+          li.append(rank,name,score);
+          if(mine){const marker=document.createElement("span");marker.className="me-marker";marker.textContent="VOS";li.appendChild(marker);}
+          list.appendChild(li);
+        });
+      }
+      if(target==="ranking-home"){
+        const personal=$("home-rank-status");
+        if(personal){
+          if(myRank){personal.textContent=`Tu mejor posición: #${myRank}`;personal.classList.remove("hidden");}
+          else {personal.textContent="Jugá para aparecer en el ranking";personal.classList.remove("hidden");}
+        }
+      }
+      if(target==="ranking"){
+        const personal=$("your-rank");
+        if(personal){
+          personal.classList.remove("hidden");
+          if(myRank){
+            personal.innerHTML=`<span class="your-rank-label">TU POSICIÓN ESTA SEMANA</span><strong>#${myRank}</strong><span class="your-rank-alias">${escapeHtml(state.alias)}</span>`;
+          } else {
+            personal.textContent="Tu resultado todavía no aparece en el ranking. Actualizá en unos segundos.";
+          }
+        }
+      }
+      return {rank:myRank,total:rows.length,rows};
+    } catch(e) {
+      console.error("Lectura ranking:",e);
+      list.innerHTML='<li class="empty">No se pudo cargar el ranking. Revisá la conexión.</li>';
+      throw e;
+    }
   }
   async function startGame() {
     if(!state.user){msg("start-message","Todavía no hay conexión con Firebase.","error");return;}
@@ -347,8 +533,13 @@ try {
     $("final-score").textContent=state.score;$("accuracy").textContent=`${accuracy}%`;$("final-time").textContent=fmt(elapsed);$("answers-count").textContent=`${state.correct}/${state.answered}`;
     $("progress-bar").style.width="100%";showScreen("screen-result");msg("save-message","Guardando tu resultado…");
     saveScore(state.score,elapsed,accuracy).then(async()=>{
-      msg("save-message","Puntaje guardado en el ranking semanal.","success");
-      await renderRanking("ranking");await renderRanking("ranking-home");
+      const result=await renderRanking("ranking");
+      await renderRanking("ranking-home");
+      if(result.rank){
+        msg("save-message",`Puntaje guardado. Esta semana quedaste en el puesto #${result.rank}.`,"success");
+      } else {
+        msg("save-message","Puntaje guardado. El ranking está actualizado; tu posición aparecerá al sincronizarse.","success");
+      }
     }).catch(e=>{console.error("Guardar resultado:",e);msg("save-message",friendlyError(e),"error");});
   }
   async function saveScore(score,elapsed,accuracy) {
