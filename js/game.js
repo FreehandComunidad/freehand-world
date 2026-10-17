@@ -1,35 +1,168 @@
-const canvas=document.querySelector('#game'),ctx=canvas.getContext('2d',{alpha:false}),$=s=>document.querySelector(s);
-const ui={intro:$('#intro'),start:$('#start'),skip:$('#skip'),controls:$('#controls'),dialogue:$('#dialogue'),dtext:$('#dtext'),speaker:$('#speaker'),next:$('#next'),qtitle:$('#qtitle'),qcopy:$('#qcopy'),count:$('#count'),bar:$('#barfill'),xp:$('#xp'),toast:$('#toast'),map:$('#map'),mapbtn:$('#mapbtn'),closemap:$('#closemap'),sound:$('#sound'),use:$('#use'),run:$('#run'),ending:$('#ending'),cont:$('#continue'),hint:$('#hint'),joy:$('#joy'),knob:$('#knob')};
-const W={w:2400,h:1800},S={started:false,x:340,y:1170,vx:0,vy:0,cx:0,cy:0,t:0,last:0,got:0,xp:0,dialogue:false,lines:0,keys:{},joy:{x:0,y:0,active:false},running:false,particles:[],target:null,sound:false,audio:null,complete:false,toastTimer:null};
-const spots=[{x:720,y:900},{x:1350,y:1190},{x:1840,y:700}].map((p,i)=>({...p,got:false,phase:i*2.37}));
-const lines=[['EL ECO DEL BOSQUE','Viajero… creí que nadie volvería a escucharme.'],['EL ECO DEL BOSQUE','La oscuridad no destruyó este lugar. Solo apagó sus recuerdos.'],['EL ECO DEL BOSQUE','Tres cristales guardan la memoria del bosque. Encontralos y la senda volverá a encenderse.']];
-const rand=n=>{let x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)};
-const fireflies=Array.from({length:150},(_,i)=>({x:rand(i+10)*W.w,y:rand(i+200)*W.h,p:rand(i+400)*6.28,s:.25+rand(i+500)*.6,r:1+rand(i+600)*2}));
-function resize(){let d=Math.min(devicePixelRatio||1,1.6);canvas.width=innerWidth*d;canvas.height=innerHeight*d;ctx.setTransform(d,0,0,d,0,0)}addEventListener('resize',resize);resize();
-function toast(t){ui.toast.textContent=t;ui.toast.classList.add('show');clearTimeout(S.toastTimer);S.toastTimer=setTimeout(()=>ui.toast.classList.remove('show'),2100)}
-function tone(f=500){if(!S.sound)return;try{S.audio ||= new(window.AudioContext||window.webkitAudioContext)();let o=S.audio.createOscillator(),g=S.audio.createGain();o.frequency.value=f;g.gain.setValueAtTime(.035,S.audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,S.audio.currentTime+.16);o.connect(g);g.connect(S.audio.destination);o.start();o.stop(S.audio.currentTime+.16)}catch{}}
-function start(){if(S.started)return;S.started=true;ui.intro.classList.add('hidden');ui.controls.classList.remove('hidden');showLine(0)}
-ui.start.onclick=start;ui.skip.onclick=start;
-function showLine(i){S.lines=i;S.dialogue=true;ui.dialogue.classList.remove('hidden');ui.speaker.textContent=lines[i][0];ui.dtext.textContent=lines[i][1]}
-function nextLine(){if(++S.lines<lines.length)showLine(S.lines);else{S.dialogue=false;ui.dialogue.classList.add('hidden');ui.hint.classList.remove('hidden')}}
-ui.next.onclick=nextLine;
-function burst(x,y,n,col){for(let i=0;i<n;i++){let a=rand(i+S.t*91)*6.283,sp=25+rand(i+S.t*17)*145;S.particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:.6+rand(i+3)*.8,max:1.4,size:1+rand(i+4)*3,col})}}
-function updateUI(){ui.count.textContent=`CRISTALES · ${S.got} / 3`;ui.bar.style.width=S.got/3*100+'%';ui.xp.textContent=S.xp+' XP';if(S.got===3&&!S.complete){S.complete=true;S.xp+=150;ui.xp.textContent=S.xp+' XP';ui.qtitle.textContent='La senda despierta';ui.qcopy.textContent='Los cristales respondieron. Una puerta acaba de abrirse.';setTimeout(()=>ui.ending.classList.remove('hidden'),700);burst(S.x,S.y,65,'#a7fff0')}}
-function interact(){if(!S.started||S.dialogue||!ui.map.classList.contains('hidden')||!ui.ending.classList.contains('hidden'))return;let c=null,d0=1e9;for(let q of spots)if(!q.got){let d=Math.hypot(q.x-S.x,q.y-S.y);if(d<d0){c=q;d0=d}}if(c&&d0<125){c.got=true;S.got++;S.xp+=50;burst(c.x,c.y,44,'#6cfff0');tone(640);toast('Cristal recuperado · +50 XP');updateUI();return}if(Math.hypot(2070-S.x,1320-S.y)<200){toast(S.got===3?'La puerta vibra… El siguiente capítulo está cerca.':'La Puerta Antigua necesita los 3 cristales');return}toast('Acercate a un destello para interactuar')}
-ui.use.onclick=interact;ui.mapbtn.onclick=()=>ui.map.classList.remove('hidden');ui.closemap.onclick=()=>ui.map.classList.add('hidden');ui.sound.onclick=()=>{S.sound=!S.sound;ui.sound.textContent=S.sound?'♫':'♪';tone(440);toast(S.sound?'Sonido activado':'Sonido desactivado')};ui.run.onpointerdown=()=>S.running=true;['pointerup','pointercancel','pointerleave'].forEach(e=>ui.run.addEventListener(e,()=>S.running=false));ui.cont.onclick=()=>{ui.ending.classList.add('hidden');toast('Capítulo I completado · Próximamente: la Puerta Antigua')};
-addEventListener('keydown',e=>{S.keys[e.key.toLowerCase()]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(e.key.toLowerCase()==='e'||e.key==='Enter')interact();if(e.key==='Escape')ui.map.classList.add('hidden')});addEventListener('keyup',e=>S.keys[e.key.toLowerCase()]=false);
-function joyMove(e){let r=ui.joy.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.hypot(dx,dy),m=34;if(d>m){dx=dx/d*m;dy=dy/d*m}S.joy.x=dx/m;S.joy.y=dy/m;ui.knob.style.transform=`translate(${dx}px,${dy}px)`}
-ui.joy.onpointerdown=e=>{e.preventDefault();S.joy.active=true;ui.joy.setPointerCapture(e.pointerId);joyMove(e)};ui.joy.onpointermove=e=>{if(S.joy.active)joyMove(e)};function release(){S.joy.active=false;S.joy.x=S.joy.y=0;ui.knob.style.transform='translate(0,0)'}ui.joy.onpointerup=release;ui.joy.onpointercancel=release;
-canvas.onpointerdown=e=>{if(S.started&&!S.dialogue&&ui.map.classList.contains('hidden'))S.target={x:e.clientX+S.cx,y:e.clientY+S.cy}};canvas.onpointermove=e=>{if(S.target&&e.buttons)S.target={x:e.clientX+S.cx,y:e.clientY+S.cy}};canvas.onpointerup=()=>S.target=null;
-function update(dt){S.t+=dt;if(!S.started||S.dialogue||!ui.map.classList.contains('hidden')||!ui.ending.classList.contains('hidden'))return;let ix=S.joy.x,iy=S.joy.y,k=S.keys;if(k.a||k.arrowleft)ix--;if(k.d||k.arrowright)ix++;if(k.w||k.arrowup)iy--;if(k.s||k.arrowdown)iy++;if(S.target){let dx=S.target.x-S.x,dy=S.target.y-S.y,d=Math.hypot(dx,dy);if(d>15){ix+=dx/d;iy+=dy/d}else S.target=null}let m=Math.hypot(ix,iy);if(m>1){ix/=m;iy/=m}let sp=S.running?255:164,ease=1-Math.exp(-dt*10);S.vx+=(ix*sp-S.vx)*ease;S.vy+=(iy*sp-S.vy)*ease;if(m<.03){S.vx*=Math.exp(-dt*7);S.vy*=Math.exp(-dt*7)}S.x=Math.max(80,Math.min(W.w-80,S.x+S.vx*dt));S.y=Math.max(100,Math.min(W.h-80,S.y+S.vy*dt));S.cx+=(S.x-innerWidth*.5-S.cx)*(1-Math.exp(-dt*4.2));S.cy+=(S.y-innerHeight*.54-S.cy)*(1-Math.exp(-dt*4.2));S.cx=Math.max(0,Math.min(W.w-innerWidth,S.cx));S.cy=Math.max(0,Math.min(W.h-innerHeight,S.cy));for(let p of S.particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=Math.exp(-dt*1.5);p.vy*=Math.exp(-dt*1.5);p.life-=dt}S.particles=S.particles.filter(p=>p.life>0)}
-function mountains(w,h,off,color,base,amp){ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(0,h*base);for(let x=-100;x<w+200;x+=65){let xx=x+off,y=h*base-Math.abs(Math.sin(xx*.004)*amp*.55)-Math.abs(Math.cos(xx*.009)*amp*.25);ctx.lineTo(x,y)}ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();ctx.fill()}
-function tree(x,y,s,seed){ctx.fillStyle='#06171b66';ctx.beginPath();ctx.ellipse(x+8*s,y+12*s,30*s,12*s,0,0,6.283);ctx.fill();ctx.fillStyle='#402e31';ctx.fillRect(x-5*s,y-36*s,10*s,42*s);let cs=['#1b5145','#1d6551','#286c58','#24463f'];for(let j=0;j<4;j++){ctx.fillStyle=cs[(seed+j)%4];ctx.beginPath();ctx.ellipse(x+Math.sin(seed+j)*7*s,y-(26+j*12)*s,(25-j*2)*s,(23-j)*s,Math.sin(j+seed)*.2,0,6.283);ctx.fill()}ctx.fillStyle='#78d7a255';ctx.beginPath();ctx.ellipse(x-7*s,y-50*s,9*s,17*s,-.6,0,6.283);ctx.fill()}
-function ground(){let g=ctx.createLinearGradient(0,0,0,W.h);g.addColorStop(0,'#1d3d3e');g.addColorStop(.45,'#173b36');g.addColorStop(1,'#0c252d');ctx.fillStyle=g;ctx.fillRect(0,0,W.w,W.h);for(let i=0;i<250;i++){let x=rand(i+20)*W.w,y=rand(i+700)*W.h,r=20+rand(i+1200)*75;ctx.globalAlpha=.035+rand(i+900)*.045;ctx.fillStyle=i%3?'#a2e08b':'#4ad8c6';ctx.beginPath();ctx.ellipse(x,y,r,r*.35,rand(i+70),0,6.283);ctx.fill()}ctx.globalAlpha=1}
-function path(){ctx.lineCap='round';ctx.beginPath();ctx.moveTo(250,1500);ctx.bezierCurveTo(500,1380,500,1200,720,1120);ctx.bezierCurveTo(950,1040,1010,1350,1250,1320);ctx.bezierCurveTo(1510,1290,1480,960,1660,930);ctx.bezierCurveTo(1870,900,1920,1160,2070,1320);ctx.lineWidth=160;ctx.strokeStyle='#132b34';ctx.stroke();ctx.lineWidth=118;ctx.strokeStyle='#43564b';ctx.stroke();for(let i=0;i<160;i++){let x=250+i*11.2,y=1490-Math.sin(i*.045)*200+Math.sin(i*.018)*110;ctx.globalAlpha=.28;ctx.fillStyle=i%2?'#75836d':'#9b9879';ctx.beginPath();ctx.ellipse(x,y,7,3,Math.sin(i)*.2,0,6.283);ctx.fill()}ctx.globalAlpha=1}
-function ruins(){for(let i=0;i<16;i++){let x=120+i*140,y=520+Math.sin(i*.9)*70;ctx.fillStyle='#344451';ctx.fillRect(x,y,70,18);ctx.fillStyle='#77816f';for(let j=0;j<5;j++)ctx.fillRect(x+j*14,y+2,12,4)}for(let i=0;i<11;i++){let x=1500+i*65,y=1480+Math.sin(i*.6)*35;ctx.fillStyle='#263947';ctx.fillRect(x,y,55,22);ctx.fillStyle='#69796d';ctx.fillRect(x+3,y+3,48,4)}}
-function lanterns(){for(let l of [{x:480,y:1250},{x:970,y:1240},{x:1510,y:1110},{x:1940,y:1130}]){let glow=ctx.createRadialGradient(l.x,l.y-18,1,l.x,l.y-18,85);glow.addColorStop(0,`rgba(255,199,112,${.18+.08*Math.sin(S.t*5+l.x)})`);glow.addColorStop(1,'#ff964600');ctx.fillStyle=glow;ctx.beginPath();ctx.arc(l.x,l.y-18,85,0,6.283);ctx.fill();ctx.fillStyle='#493f3b';ctx.fillRect(l.x-3,l.y-18,6,22);ctx.fillStyle='#ffd58a';ctx.beginPath();ctx.ellipse(l.x,l.y-21,4,8,0,0,6.283);ctx.fill()}}
-function crystals(){for(let c of spots){if(c.got)continue;let y=c.y+Math.sin(S.t*2.2+c.phase)*7,g=ctx.createRadialGradient(c.x,y,1,c.x,y,70);g.addColorStop(0,'#65fff055');g.addColorStop(1,'#65fff000');ctx.fillStyle=g;ctx.beginPath();ctx.arc(c.x,y,70,0,6.283);ctx.fill();ctx.save();ctx.translate(c.x,y);ctx.rotate(Math.sin(S.t+c.phase)*.12);ctx.fillStyle='#a9fff6';ctx.strokeStyle='#e0ffff';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,-20);ctx.lineTo(12,-3);ctx.lineTo(5,17);ctx.lineTo(-9,10);ctx.lineTo(-12,-5);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore()}}
-function gate(){let x=2070,y=1320;ctx.fillStyle='#08182066';ctx.beginPath();ctx.ellipse(x,y+15,100,27,0,0,6.283);ctx.fill();ctx.fillStyle='#394b52';ctx.fillRect(x-65,y-110,18,130);ctx.fillRect(x+47,y-110,18,130);ctx.fillRect(x-80,y-120,160,22);ctx.strokeStyle='#8a9d91';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(x-55,y+10);ctx.lineTo(x-55,y-68);ctx.quadraticCurveTo(x-55,y-126,x,y-126);ctx.quadraticCurveTo(x+55,y-126,x+55,y-68);ctx.lineTo(x+55,y+10);ctx.stroke();let p=S.got===3?.6+.4*Math.sin(S.t*3):.08,g=ctx.createRadialGradient(x,y-65,1,x,y-65,105);g.addColorStop(0,`rgba(123,245,231,${p})`);g.addColorStop(1,'#7bf5e700');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y-65,105,0,6.283);ctx.fill();if(S.got===3){ctx.strokeStyle='#9ffef0';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y-65,35,50,Math.sin(S.t)*.1,0,6.283);ctx.stroke()}}
-function player(){let x=S.x,y=S.y,walk=Math.hypot(S.vx,S.vy)>12,step=walk?Math.sin(S.t*13)*4:Math.sin(S.t*2)*1.5;ctx.fillStyle='#030a1266';ctx.beginPath();ctx.ellipse(x,y+8,19,7,0,0,6.283);ctx.fill();ctx.fillStyle='#17253b';ctx.beginPath();ctx.ellipse(x,y-16,15,23,0,0,6.283);ctx.fill();ctx.fillStyle='#315e55';ctx.beginPath();ctx.moveTo(x-11,y-30);ctx.quadraticCurveTo(x-24,y-5,x-17,y+2);ctx.lineTo(x+14,y+2);ctx.quadraticCurveTo(x+23,y-10,x+9,y-31);ctx.closePath();ctx.fill();ctx.fillStyle='#4f8a74';ctx.beginPath();ctx.moveTo(x-7,y-28);ctx.quadraticCurveTo(x-19,y-9,x-13,y-2);ctx.lineTo(x-4,y-5);ctx.lineTo(x+1,y-28);ctx.closePath();ctx.fill();ctx.fillStyle='#152137';ctx.beginPath();ctx.ellipse(x,y-34,12,14,0,0,6.283);ctx.fill();ctx.fillStyle='#b88768';ctx.beginPath();ctx.ellipse(x+1,y-32,6,8,0,0,6.283);ctx.fill();ctx.fillStyle='#17223a';ctx.beginPath();ctx.moveTo(x-11,y-38);ctx.quadraticCurveTo(x,y-54,x+11,y-38);ctx.lineTo(x+8,y-29);ctx.lineTo(x-8,y-29);ctx.closePath();ctx.fill();ctx.strokeStyle='#192439';ctx.lineWidth=5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x-6,y-3);ctx.lineTo(x-7+step,y+7);ctx.moveTo(x+6,y-3);ctx.lineTo(x+7-step,y+7);ctx.stroke();ctx.strokeStyle='#b6d8d2';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,y-19);ctx.lineTo(x+5,y-14);ctx.lineTo(x,y-9);ctx.lineTo(x-5,y-14);ctx.closePath();ctx.stroke()}
-function draw(){let w=innerWidth,h=innerHeight;ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle='#0b1526';ctx.fillRect(0,0,w,h);let sky=ctx.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#111a39');sky.addColorStop(.48,'#172f42');sky.addColorStop(1,'#081626');ctx.fillStyle=sky;ctx.fillRect(0,0,w,h);mountains(w,h,S.cx*.12,'#252c56',.31,130);mountains(w,h,S.cx*.19,'#203b4c',.4,185);ctx.save();ctx.translate(-S.cx,-S.cy);ground();path();ruins();for(let i=0;i<120;i++){let x=rand(i+400)*W.w,y=rand(i+500)*W.h;if(Math.abs(y-(1420-Math.sin(x*.004)*220))<150)continue;tree(x,y,.65+rand(i+800)*1.35,i%4)}for(let i=0;i<18;i++)tree(i*150-20,170+rand(i+300)*160,1.4+rand(i+700)*.6,i%4);lanterns();crystals();gate();for(let f of fireflies){ctx.globalAlpha=.25+.5*(.5+.5*Math.sin(S.t*2+f.p));ctx.fillStyle='#8fffe0';ctx.beginPath();ctx.arc(f.x+Math.sin(S.t*f.s+f.p)*14,f.y+Math.cos(S.t*f.s*.8+f.p)*9,f.r,0,6.283);ctx.fill()}ctx.globalAlpha=1;player();for(let p of S.particles){ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.col;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,6.283);ctx.fill()}ctx.globalAlpha=1;ctx.restore();let vign=ctx.createRadialGradient(w*.5,h*.48,10,w*.5,h*.48,Math.max(w,h)*.7);vign.addColorStop(0,'#5ff4ef08');vign.addColorStop(1,'#0207148c');ctx.fillStyle=vign;ctx.fillRect(0,0,w,h);if(S.started&&!S.dialogue&&ui.map.classList.contains('hidden')&&ui.ending.classList.contains('hidden')&&spots.some(c=>!c.got&&Math.hypot(c.x-S.x,c.y-S.y)<120)){ctx.fillStyle='#e8ffff';ctx.font='600 11px DM Sans';ctx.textAlign='center';ctx.fillText('CRISTAL CERCA · TOCÁ ✦',w/2,h*.74)}}
-function frame(now){let dt=Math.min(.033,(now-(S.last||now))/1000||0);S.last=now;update(dt);draw();requestAnimationFrame(frame)}requestAnimationFrame(frame);
+(() => {
+"use strict";
+const $=id=>document.getElementById(id);
+const screens=["homeScreen","profileScreen","gameScreen","resultScreen"];
+const modes={quiz:"ARGENTINA EN 10",memory:"MEMORIA VISUAL",truth:"VERDAD O CHAMUYO"};
+const questions=[
+{q:"¿En qué provincia está el Parque Nacional Talampaya?",a:["San Juan","La Rioja","Mendoza","San Luis"],c:1,d:1,why:"Talampaya está en La Rioja."},
+{q:"¿Qué instrumento es emblemático del tango?",a:["Bandoneón","Siku","Charango","Bombo legüero"],c:0,d:0,why:"El bandoneón es uno de los sonidos más reconocibles del tango."},
+{q:"¿Cuántas provincias tiene Argentina?",a:["21","22","23","24"],c:2,d:0,why:"Son 23 provincias y la Ciudad Autónoma de Buenos Aires."},
+{q:"¿Qué pueblo originario tiene una fuerte presencia histórica en la región andina del noroeste argentino?",a:["Yámana","Diaguita-Calchaquí","Guaraní solamente","Selk'nam"],c:1,d:1,why:"Los pueblos diaguita-calchaquíes habitaron parte del noroeste."},
+{q:"¿En qué año se sancionó la Constitución Nacional argentina?",a:["1816","1853","1880","1912"],c:1,d:1,why:"La Constitución fue sancionada en 1853."},
+{q:"¿Cuál es el punto más alto de América?",a:["Monte Pissis","Cerro Mercedario","Aconcagua","Lanín"],c:2,d:0,why:"El Aconcagua, en Mendoza, es el punto más alto de América."},
+{q:"¿Qué batalla de 1813 es conocida como el Combate de San Lorenzo?",a:["Una victoria de San Martín","Una batalla naval","La defensa de Buenos Aires","Una batalla en el Alto Perú"],c:0,d:1,why:"Fue el combate en el que las fuerzas de San Martín enfrentaron a realistas."},
+{q:"¿Qué científico argentino recibió el Nobel por sus trabajos sobre la enfermedad de Chagas?",a:["Luis Federico Leloir","César Milstein","Bernardo Houssay","No hubo Nobel por ese tema"],c:3,d:2,why:"No se otorgó un Nobel por la enfermedad de Chagas. Houssay y Leloir ganaron Nobel por otros trabajos."},
+{q:"¿Qué provincia es famosa por la Fiesta Nacional de la Vendimia?",a:["San Juan","Mendoza","La Rioja","Río Negro"],c:1,d:0,why:"La Fiesta Nacional de la Vendimia se celebra en Mendoza."},
+{q:"¿Cuál de estos géneros musicales está especialmente asociado a Santiago del Estero?",a:["Chamamé","Chacarera","Candombe montevideano","Milonga surera exclusivamente"],c:1,d:1,why:"La chacarera es uno de los géneros más ligados a Santiago del Estero."},
+{q:"¿Qué tratado puso fin a la Guerra de la Triple Alianza?",a:["Tratado de Pilar","No hubo un único tratado de paz general de ese tipo","Pacto Federal","Tratado de Tordesillas"],c:1,d:2,why:"El final del conflicto se dio mediante acuerdos y tratados separados, no un único tratado general con ese nombre."},
+{q:"¿En qué provincia se encuentra Ischigualasto, conocido como Valle de la Luna?",a:["La Rioja","San Juan","Catamarca","San Luis"],c:1,d:0,why:"Ischigualasto está en San Juan."},
+{q:"¿Qué ley estableció el voto secreto, obligatorio y universal masculino en 1912?",a:["Ley Sáenz Peña","Ley Avellaneda","Ley de Residencia","Ley de Educación Común"],c:0,d:2,why:"La Ley Sáenz Peña reformó el sistema electoral en 1912."},
+{q:"¿Cuál es el nombre del glaciar más conocido del Parque Nacional Los Glaciares?",a:["Viedma solamente","Perito Moreno","Upsala no existe","Martial"],c:1,d:1,why:"El glaciar Perito Moreno es uno de los más famosos del parque."},
+{q:"¿Qué poeta escribió el poema narrativo Martín Fierro?",a:["José Hernández","Leopoldo Lugones","Alfonsina Storni","Oliverio Girondo"],c:0,d:1,why:"Martín Fierro fue escrito por José Hernández."},
+{q:"¿Qué provincia argentina limita con Chile y Paraguay?",a:["Salta","Chaco","Santa Fe","Entre Ríos"],c:0,d:2,why:"Salta limita con Chile y Paraguay, además de Bolivia."},
+{q:"¿Qué científica argentina fue pionera en la investigación de la estructura de los virus y fue reconocida internacionalmente?",a:["Sandra Díaz","Andrea Gamarnik","Cecilia Grierson","Rebeca Gerschman"],c:1,d:2,why:"Andrea Gamarnik es reconocida por sus investigaciones sobre virus, incluido el dengue."},
+{q:"¿Qué ciudad fue sede de la Reforma Universitaria de 1918?",a:["La Plata","Córdoba","Rosario","Buenos Aires"],c:1,d:1,why:"La Reforma Universitaria comenzó en la Universidad de Córdoba."}
+];
+const truths=[
+{q:"Argentina tiene territorio en la Antártida.",t:true,why:"Argentina mantiene un reclamo territorial antártico y presencia científica."},
+{q:"El Aconcagua está en San Juan.",t:false,why:"Está en Mendoza, cerca de la frontera con Chile."},
+{q:"La Ley Sáenz Peña se sancionó en 1912.",t:true,why:"La ley electoral fue sancionada en 1912."},
+{q:"Ushuaia queda en el norte argentino.",t:false,why:"Ushuaia está en Tierra del Fuego, en el extremo sur."},
+{q:"El chamamé tiene una fuerte tradición en Corrientes.",t:true,why:"El chamamé es una expresión cultural central de Corrientes y la región."},
+{q:"La Constitución Nacional fue sancionada en 1816.",t:false,why:"La Constitución Nacional fue sancionada en 1853."}
+];
+// Custom SVG illustrations: matched pairs use the same icon and never rely on emoji.
+const svgIcons=[
+'<path d="M20 18c-7 0-12-5-12-12 7 0 12 5 12 12Z"/><path d="M8 6c8 3 10 8 12 12"/><path d="M12 21h8"/>',
+'<path d="M12 3 21 8v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+'<circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9 7 7m10 10 2.1 2.1m0-14.2L17 7M7 17l-2.1 2.1"/>',
+'<path d="M4 9c0-3 3-5 8-5s8 2 8 5v8c0 2-3 3-8 3s-8-1-8-3V9Z"/><path d="M4 9c0 2 3 3 8 3s8-1 8-3M8 5l8 14"/>',
+'<path d="M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6M3 20h18"/>',
+'<path d="m3 18 5-8 4 5 3-4 6 7H3Z"/><path d="m8 10 3-5 4 6"/>',
+'<path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5M8 16h7"/>',
+'<circle cx="12" cy="12" r="8"/><path d="M12 7v5l4 2"/>'
+];
+const iconNames=["HOJA","GEOMETRÍA","SOL","MATE","CASA","MONTAÑA","LIBRO","RELOJ"];
+let mode="quiz",queue=[],index=0,score=0,correct=0,streak=0,bestStreak=0,answered=false;
+let memoryCards=[],firstCard=null,lockBoard=false,lives=3,matches=0,soundOn=false,runTimer=null,truthQueue=[];
+let pendingResult=null;
+const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+// MODO PRUEBA: permite jugar cualquier día mientras verificamos Firebase.
+// Para volver al modo público de sábados, cambiar TEST_MODE a false.
+const TEST_MODE = true;
+function isSaturday(){return TEST_MODE || new Date().getDay()===6}
+function show(id){screens.forEach(x=>$(x).classList.toggle("active",x===id));window.scrollTo({top:0,behavior:"smooth"})}
+function profile(){return read("fhw_profile",null)}
+function aliasFor(name,code){const adj=["Ámbar","Cóndor","Criollo","Pampa","Tango","Andino","Mate","Zonda","Fénix","Gaucho","Sur","Dorado"];const nouns=["Secreto","Veloz","Bravo","Solar","Oculto","Firme","Astuto","Libre","Centella","Nómada"];const seed=(name+code).split("").reduce((n,c)=>n+c.charCodeAt(0),0);return `${adj[seed%adj.length]} ${nouns[(seed*7+3)%nouns.length]}`;}
+function ensureProfile(){const p=profile();if(!p){show("profileScreen");$("realName").value="";$("playerTag").value="";return false}return true}
+function renderHome(){
+ const p=profile(), saturday=isSaturday();
+ $("dayStatus").textContent=TEST_MODE?"MODO PRUEBA":saturday?"ARENA ABIERTA":"ARENA CERRADA";
+ $("closedNotice").classList.toggle("hidden",saturday);
+ document.querySelectorAll("[data-mode]").forEach(b=>{const used=attempts().includes(b.dataset.mode);b.disabled=!saturday||used;const cta=b.querySelector(".mode-cta");cta.textContent=!saturday?"ABRE EL SÁBADO":used?"INTENTO UTILIZADO":TEST_MODE?"PROBAR AHORA ↗":"ENTRAR ↗";});
+ $("publicAlias").textContent=p?p.alias:"Todavía sin registrar";$("avatarGlyph").textContent=p?p.alias[0]:"?";$("profileHint").textContent=p?`Código ${p.code} · identidad privada`:"Ingresá tus datos antes de jugar";
+ const remote=read("fhw_remote_scores",[]);
+ const scores=remote;
+ $("leaderboard").innerHTML=scores.length?scores.slice(0,5).map((x,i)=>`<div class="leader-row"><span class="leader-rank">${String(i+1).padStart(2,"0")}</span><span>${escapeHtml(x.alias || "Jugador")}</span><span class="leader-score">${Number(x.score||0).toLocaleString("es-AR")} pts</span></div>`).join(""):'<div class="leader-row"><span class="leader-rank">—</span><span>Esperando los primeros resultados</span><span class="leader-score">—</span></div>';
+}
+function attempts(){return read("fhw_attempts",[])}
+function hasPlayed(m){return attempts().includes(m)}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function start(nextMode){
+ if(!isSaturday()){renderHome();return}
+ if(!ensureProfile())return;
+ if(hasPlayed(nextMode)){alert("Ya usaste tu intento de este modo esta semana.");renderHome();return}
+ mode=nextMode;index=0;score=0;correct=0;streak=0;bestStreak=0;answered=false;pendingResult=null;
+ $("feedback").textContent="";$("feedback").className="feedback";
+ $("gameModeLabel").textContent=modes[mode];show("gameScreen");
+ if(mode==="quiz"){queue=shuffle(questions).slice(0,10);renderQuiz()}
+ if(mode==="truth"){truthQueue=shuffle(truths);renderTruth()}
+ if(mode==="memory"){startMemory()}
+}
+function progress(total){$("questionCounter").textContent=`${String(Math.min(index+1,total)).padStart(2,"0")} / ${String(total).padStart(2,"0")}`;$("progressFill").style.width=`${Math.min(index,total)/total*100}%`}
+function renderQuiz(){
+ if(index>=queue.length){finish();return}
+ answered=false;const q=queue[index];progress(queue.length);
+ const difficulty=q.d===0?"CALENTAMIENTO":q.d===1?"NIVEL MEDIO":"NIVEL EXPERTO";
+ $("gameContent").innerHTML=`<div class="timer-row"><span>${difficulty} · PREGUNTA ${String(index+1).padStart(2,"0")}</span><span class="timer" id="timerValue">10s</span></div><div class="question-kicker">CULTURA ARGENTINA / ${difficulty}</div><h2 class="question-title">${q.q}</h2><div class="answers">${q.a.map((a,i)=>`<button class="answer" data-answer="${i}"><span class="answer-letter">${"ABCD"[i]}</span>${a}</button>`).join("")}</div>`;
+ let time=10;clearInterval(runTimer);runTimer=setInterval(()=>{time--;const e=$("timerValue");if(e)e.textContent=`${time}s`;if(time<=0){clearInterval(runTimer);if(!answered)answerQuiz(-1,0)}},1000);
+ document.querySelectorAll("[data-answer]").forEach(b=>b.addEventListener("click",()=>answerQuiz(+b.dataset.answer,time)));
+}
+function answerQuiz(choice,time){
+ if(answered)return;answered=true;clearInterval(runTimer);const q=queue[index],good=choice===q.c;
+ document.querySelectorAll("[data-answer]").forEach(b=>{b.disabled=true;let n=+b.dataset.answer;if(n===q.c)b.classList.add("correct");else if(n===choice)b.classList.add("wrong")});
+ if(good){correct++;streak++;bestStreak=Math.max(bestStreak,streak);score+=(q.d===2?180:q.d===1?130:100)+Math.max(0,time)*5;$("feedback").className="feedback good";$("feedback").textContent=`¡Correcto! ${q.why}`;tone(true)}
+ else{streak=0;$("feedback").className="feedback bad";$("feedback").textContent=`${choice<0?"Se terminó el tiempo.":"No era esa."} ${q.why}`;tone(false)}
+ index++;$("progressFill").style.width=`${index/queue.length*100}%`;setTimeout(renderQuiz,1100)
+}
+function renderTruth(){
+ if(index>=truthQueue.length){finish();return}
+ answered=false;const q=truthQueue[index];progress(truthQueue.length);
+ $("gameContent").innerHTML=`<div class="question-kicker">VERDAD O CHAMUYO · ${String(index+1).padStart(2,"0")}</div><h2 class="question-title">${q.q}</h2><div class="truth-actions"><button data-truth="true">✓ ES VERDAD</button><button data-truth="false">✕ ES CHAMUYO</button></div>`;
+ document.querySelectorAll("[data-truth]").forEach(b=>b.addEventListener("click",()=>{if(answered)return;answered=true;const good=(b.dataset.truth==="true")===q.t;if(good){score+=100;correct++;streak++;bestStreak=Math.max(bestStreak,streak);$("feedback").className="feedback good";$("feedback").textContent=`¡Bien! ${q.why}`;tone(true)}else{streak=0;$("feedback").className="feedback bad";$("feedback").textContent=`No exactamente. ${q.why}`;tone(false)}index++;setTimeout(renderTruth,1100)}))
+}
+function svgFor(i){return `<svg class="card-symbol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-label="${iconNames[i]}">${svgIcons[i]}</svg>`}
+function startMemory(){
+ lives=3;matches=0;firstCard=null;lockBoard=false;
+ const pairs=shuffle([0,1,2,3,4,5,6,7]).flatMap((v)=>[{v,id:Math.random().toString(36).slice(2)},{v,id:Math.random().toString(36).slice(2)}]);
+ memoryCards=shuffle(pairs);renderMemoryBoard(true);
+}
+function renderMemoryBoard(showAll){
+ $("questionCounter").textContent=`${matches}/8 PARES`; $("progressFill").style.width=`${matches/8*100}%`;
+ $("gameContent").innerHTML=`<div class="memory-meta"><span class="question-kicker">MEMORIA VISUAL / EMPAREJÁ</span><span class="lives" id="lifeDisplay">♥ ♥ ♥</span></div><h2 class="question-title">Encontrá los 8 pares.</h2><p class="memory-instruction" id="memoryInstruction">${showAll?"Memorizá las figuras durante 3 segundos.":"Tocá dos cartas para encontrar sus pares."}</p><div class="memory-board">${memoryCards.map((c,i)=>`<button class="memory-card ${showAll?"flipped":""}" data-card="${i}" ${showAll?"disabled":""}>${showAll?svgFor(c.v):'<span class="card-back">F</span>'}</button>`).join("")}</div><div class="memory-instruction">Vidas restantes: <strong id="lifeText">3</strong> · Parejas: <strong id="pairText">0/8</strong></div>`;
+ if(showAll){clearTimeout(runTimer);runTimer=setTimeout(()=>{document.querySelectorAll(".memory-card").forEach(b=>{b.classList.remove("flipped");b.innerHTML='<span class="card-back">F</span>';b.disabled=false});$("memoryInstruction").textContent="Encontrá los pares. Tenés solo 3 vidas.";bindMemory()},3000)}else bindMemory()
+}
+function bindMemory(){
+ document.querySelectorAll(".memory-card").forEach(btn=>btn.addEventListener("click",()=>flipCard(+btn.dataset.card,btn)))
+}
+function flipCard(i,btn){
+ if(lockBoard||btn.disabled||btn.classList.contains("matched")||btn.classList.contains("flipped"))return;
+ const c=memoryCards[i];btn.classList.add("flipped");btn.innerHTML=svgFor(c.v);
+ if(!firstCard){firstCard={i,btn,v:c.v};return}
+ lockBoard=true;const first=firstCard;firstCard=null;
+ if(first.v===c.v){first.btn.classList.add("matched");btn.classList.add("matched");first.btn.disabled=true;btn.disabled=true;matches++;score+=100;correct++;$("pairText").textContent=`${matches}/8`;$("questionCounter").textContent=`${matches}/8 PARES`;$("progressFill").style.width=`${matches/8*100}%`;tone(true);lockBoard=false;if(matches===8){score+=250;$("feedback").className="feedback good";$("feedback").textContent="¡Memoria perfecta! Encontraste todos los pares.";setTimeout(finish,850)}}
+ else{lives--;$("lifeDisplay").textContent=Array.from({length:3},(_,n)=>n<lives?"♥":"♡").join(" ");$("lifeText").textContent=lives;tone(false);if(lives<=0){document.querySelectorAll(".memory-card").forEach(b=>b.disabled=true);$("feedback").className="feedback bad";$("feedback").textContent="Te quedaste sin vidas. ¡Podés volver la próxima semana!";setTimeout(finish,1000)}else{setTimeout(()=>{first.btn.classList.remove("flipped");first.btn.innerHTML='<span class="card-back">F</span>';btn.classList.remove("flipped");btn.innerHTML='<span class="card-back">F</span>';lockBoard=false},850)}}
+}
+function finish(){
+ clearInterval(runTimer);const total=mode==="quiz"?queue.length:mode==="truth"?truthQueue.length:8;const xp=Math.floor(score/10)+correct*5;
+ const p=profile();pendingResult={mode,score,correct,total,bestStreak,xp,alias:p?.alias||"Jugador",code:p?.code||"—",date:new Date().toISOString()};
+ $("resultTitle").textContent=score>=800?"¡Nivel de leyenda!":score>=450?"¡Muy buen juego!":"La próxima es tuya.";
+ $("resultSubtitle").textContent=mode==="memory"?(matches===8?"Completaste todos los pares.":"Cada intento te entrena."):`Completaste ${modes[mode].toLowerCase()}.`;
+ $("finalScore").textContent=score.toLocaleString("es-AR");$("finalCorrect").textContent=`${correct}/${total}`;$("finalStreak").textContent=bestStreak;$("finalXp").textContent=xp;
+ $("resultAlias").textContent=p?.alias||"Jugador";$("resultCode").textContent=p?.code||"";$("saveScore").textContent="ENVIAR RESULTADO AL RANKING";show("resultScreen")
+}
+async function saveResult(){
+ if(!pendingResult)return;
+ $("saveScore").disabled=true;$("saveScore").textContent="ENVIANDO…";
+ try{
+   if(!window.FHW)throw new Error("Firebase no está disponible.");
+   await window.FHW.submitScore(pendingResult);
+   const played=attempts();if(!played.includes(mode)){played.push(mode);write("fhw_attempts",played)}
+   $("saveScore").textContent="RESULTADO ENVIADO ✓";
+   $("saveScore").disabled=true;
+   renderHome();
+ }catch(err){
+   console.error(err);
+   $("saveScore").disabled=false;$("saveScore").textContent="REINTENTAR ENVÍO";
+   alert(err.message||"No se pudo enviar el resultado. Revisá la configuración y las reglas de Firestore.");
+ }
+}
+function tone(ok){if(!soundOn)return;try{const C=window.AudioContext||window.webkitAudioContext,c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=ok?720:210;g.gain.value=.035;o.start();o.stop(c.currentTime+.09);o.onended=()=>c.close()}catch{}}
+document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",()=>{if(!isSaturday()){renderHome();return}if(hasPlayed(b.dataset.mode)){alert("Ya usaste tu intento de este modo esta semana.");renderHome();return}start(b.dataset.mode)}));
+$("profileForm").addEventListener("submit",async e=>{e.preventDefault();const realName=$("realName").value.trim(),provided=$("playerTag").value.trim();if(realName.length<2)return;const code=provided||"FH-"+Math.floor(1000+Math.random()*9000);const p={realName,code,alias:aliasFor(realName,code)};write("fhw_profile",p);try{if(window.FHW)await window.FHW.savePrivateProfile(p)}catch(err){console.error("No se pudo guardar el perfil privado:",err);alert("El perfil quedó guardado en este dispositivo, pero Firebase no pudo guardarlo. Revisá las reglas de Firestore.")}renderHome();show("homeScreen")});
+$("editProfile").addEventListener("click",()=>{const p=profile();$("realName").value=p?.realName||"";$("playerTag").value=p?.code||"";show("profileScreen")});
+$("profileBack").addEventListener("click",()=>{show("homeScreen");renderHome()});
+$("backHome").addEventListener("click",()=>{clearInterval(runTimer);renderHome();show("homeScreen")});
+$("goHome").addEventListener("click",()=>{renderHome();show("homeScreen")});
+$("saveScore").addEventListener("click",saveResult);
+$("soundToggle").addEventListener("click",()=>{soundOn=!soundOn;$("soundState").textContent=soundOn?"ON":"OFF";tone(true)});
+window.addEventListener("fhw-leaderboard", e=>{
+ const rows=e.detail||[];
+ $("leaderboard").innerHTML=rows.length?rows.slice(0,5).map((x,i)=>`<div class="leader-row"><span class="leader-rank">${String(i+1).padStart(2,"0")}</span><span>${escapeHtml(x.alias||"Jugador")}</span><span class="leader-score">${Number(x.score||0).toLocaleString("es-AR")} pts</span></div>`).join(""):'<div class="leader-row"><span class="leader-rank">—</span><span>Esperando los primeros resultados</span><span class="leader-score">—</span></div>';
+});
+window.addEventListener("fhw-firebase-ready",()=>{const d=$("dayStatus");if(d && !TEST_MODE)d.textContent=isSaturday()?"ARENA ABIERTA":"ARENA CERRADA";});
+window.addEventListener("fhw-firebase-error", e=>{console.warn("Firebase:",e.detail);const d=$("dayStatus");if(d)d.textContent="SIN CONEXIÓN";});
+renderHome();
+})();
