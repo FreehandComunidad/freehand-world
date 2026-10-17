@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#06110b">
-  <title>FREEHANDWORLD</title>
+  <meta name="theme-color" content="#030805">
+  <meta name="description" content="FREEHANDWORLD: un desafío continuo de cultura argentina, memoria visual y verdadero o falso.">
+  <title>FREEHANDWORLD — Desafío semanal</title>
   <link rel="stylesheet" href="css/style.css">
   <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
@@ -15,26 +16,58 @@
 <body>
   <main class="shell">
     <header class="top">
-      <div class="mark">F<span>H</span></div>
-      <div><p class="eyebrow">FREEHAND COMUNIDAD</p><h1>FREEHAND<span>WORLD</span></h1></div>
-      <div id="connection" class="status">Conectando…</div>
+      <div class="brand-mark">F<span>H</span></div>
+      <div class="brand-copy"><p class="eyebrow">FREEHAND COMUNIDAD</p><h1>FREEHAND <span>WORLD</span></h1></div>
+      <div id="connection" class="status">Conectando Firebase…</div>
     </header>
 
-    <section class="hero">
-      <p class="eyebrow">BASE DE PRUEBA</p>
-      <h2>Primero, que funcione.<br><span>Después, lo hacemos épico.</span></h2>
-      <p class="intro">Esta versión mínima sirve para comprobar la conexión, guardar un resultado y leer el ranking global antes de sumar los otros modos.</p>
-      <label for="alias">Tu alias público</label>
-      <input id="alias" maxlength="40" minlength="2" value="Jugador FH" autocomplete="nickname">
-      <button id="play" class="primary">JUGAR PARTIDA DE PRUEBA</button>
-      <p id="message" class="message" role="status">Preparando conexión con Firebase…</p>
+    <section id="screen-start" class="screen start-screen">
+      <div class="eyebrow">DESAFÍO SEMANAL · EDICIÓN ARGENTINA</div>
+      <h2>Una partida.<br><span>Tres desafíos. Un ranking.</span></h2>
+      <p class="lead">Cultura argentina, memoria visual y verdadero o falso. Todo de corrido, con tiempo limitado y un resultado final en el ranking semanal.</p>
+      <div class="feature-row">
+        <div><strong>5–7 min</strong><small>Duración estimada</small></div>
+        <div><strong>03</strong><small>Etapas continuas</small></div>
+        <div><strong>5000</strong><small>Puntos máximos</small></div>
+      </div>
+      <label for="alias">Elegí tu alias público</label>
+      <input id="alias" maxlength="40" minlength="2" autocomplete="nickname" value="" placeholder="Ej. Cóndor Astuto">
+      <button id="start" class="primary" disabled>COMENZAR DESAFÍO <span>→</span></button>
+      <p id="start-message" class="message">Conectando con el ranking semanal…</p>
+      <p class="fine-print">Al comenzar, la partida avanza automáticamente entre las tres etapas. No hay menú para elegir modos.</p>
     </section>
 
-    <section class="panel">
-      <div class="section-head"><div><p class="eyebrow">EN VIVO</p><h2>Ranking global</h2></div><button id="refresh" class="secondary">Actualizar</button></div>
-      <ol id="ranking" class="ranking"><li class="empty">Cargando resultados…</li></ol>
+    <section id="screen-game" class="screen hidden">
+      <div class="game-top">
+        <div><p class="eyebrow" id="stage-kicker">ETAPA 01 / 03</p><h2 id="stage-title">Cultura argentina</h2></div>
+        <div class="timers"><div><small>ETAPA</small><strong id="stage-timer">00:15</strong></div><div><small>PARTIDA</small><strong id="total-timer">00:00</strong></div></div>
+      </div>
+      <div class="progress-track"><div id="progress-bar"></div></div>
+      <div class="meta-row"><span id="stage-progress">Pregunta 1 de 15</span><span id="live-score">0 PTS</span></div>
+      <div id="play-area" class="play-area"></div>
+      <p id="game-message" class="message" aria-live="polite"></p>
     </section>
-    <footer>FREEHANDWORLD · Versión base de diagnóstico</footer>
+
+    <section id="screen-result" class="screen hidden">
+      <p class="eyebrow">DESAFÍO COMPLETADO</p>
+      <h2>Tu resultado<span>.</span></h2>
+      <div class="result-score"><strong id="final-score">0</strong><span>PTS</span></div>
+      <div class="result-stats">
+        <div><small>PRECISIÓN</small><strong id="accuracy">0%</strong></div>
+        <div><small>TIEMPO TOTAL</small><strong id="final-time">00:00</strong></div>
+        <div><small>RESPUESTAS</small><strong id="answers-count">0/35</strong></div>
+      </div>
+      <p id="save-message" class="message">Guardando resultado…</p>
+      <div class="section-head ranking-head"><div><p class="eyebrow">EN VIVO</p><h3>Ranking semanal</h3></div><button id="refresh" class="secondary">Actualizar</button></div>
+      <ol id="ranking" class="ranking"><li class="empty">Cargando ranking…</li></ol>
+      <button id="back-home" class="primary full">VOLVER AL INICIO</button>
+    </section>
+
+    <section class="panel ranking-panel">
+      <div class="section-head"><div><p class="eyebrow">COMPETENCIA SEMANAL</p><h2>Mejores puntajes</h2></div><button id="refresh-home" class="secondary">Actualizar</button></div>
+      <ol id="ranking-home" class="ranking"><li class="empty">Cargando ranking…</li></ol>
+    </section>
+    <footer>FREEHANDWORLD · UN DESAFÍO, TRES ETAPAS</footer>
   </main>
 </body>
 </html>
