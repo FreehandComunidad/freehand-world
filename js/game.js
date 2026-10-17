@@ -49,16 +49,19 @@ let pendingResult=null;
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
 const write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
 const shuffle=a=>[...a].sort(()=>Math.random()-.5);
-function isSaturday(){return new Date().getDay()===6}
+// MODO PRUEBA: permite jugar cualquier día mientras verificamos Firebase.
+// Para volver al modo público de sábados, cambiar TEST_MODE a false.
+const TEST_MODE = true;
+function isSaturday(){return TEST_MODE || new Date().getDay()===6}
 function show(id){screens.forEach(x=>$(x).classList.toggle("active",x===id));window.scrollTo({top:0,behavior:"smooth"})}
 function profile(){return read("fhw_profile",null)}
 function aliasFor(name,code){const adj=["Ámbar","Cóndor","Criollo","Pampa","Tango","Andino","Mate","Zonda","Fénix","Gaucho","Sur","Dorado"];const nouns=["Secreto","Veloz","Bravo","Solar","Oculto","Firme","Astuto","Libre","Centella","Nómada"];const seed=(name+code).split("").reduce((n,c)=>n+c.charCodeAt(0),0);return `${adj[seed%adj.length]} ${nouns[(seed*7+3)%nouns.length]}`;}
 function ensureProfile(){const p=profile();if(!p){show("profileScreen");$("realName").value="";$("playerTag").value="";return false}return true}
 function renderHome(){
  const p=profile(), saturday=isSaturday();
- $("dayStatus").textContent=saturday?"ARENA ABIERTA":"ARENA CERRADA";
+ $("dayStatus").textContent=TEST_MODE?"MODO PRUEBA":saturday?"ARENA ABIERTA":"ARENA CERRADA";
  $("closedNotice").classList.toggle("hidden",saturday);
- document.querySelectorAll("[data-mode]").forEach(b=>{const used=attempts().includes(b.dataset.mode);b.disabled=!saturday||used;const cta=b.querySelector(".mode-cta");cta.textContent=!saturday?"ABRE EL SÁBADO":used?"INTENTO UTILIZADO":"ENTRAR ↗";});
+ document.querySelectorAll("[data-mode]").forEach(b=>{const used=attempts().includes(b.dataset.mode);b.disabled=!saturday||used;const cta=b.querySelector(".mode-cta");cta.textContent=!saturday?"ABRE EL SÁBADO":used?"INTENTO UTILIZADO":TEST_MODE?"PROBAR AHORA ↗":"ENTRAR ↗";});
  $("publicAlias").textContent=p?p.alias:"Todavía sin registrar";$("avatarGlyph").textContent=p?p.alias[0]:"?";$("profileHint").textContent=p?`Código ${p.code} · identidad privada`:"Ingresá tus datos antes de jugar";
  const remote=read("fhw_remote_scores",[]);
  const scores=remote.length ? remote : read("fhw_scores",[]).sort((a,b)=>b.score-a.score);

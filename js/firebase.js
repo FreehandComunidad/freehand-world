@@ -50,7 +50,9 @@
     async submitScore(result) {
       await this.init();
       const now = new Date();
-      if (now.getDay() !== 6) throw new Error("La arena solo acepta resultados los sábados.");
+      // El modo de prueba habilita el envío cualquier día. Las reglas de Firestore publicadas siguen siendo la autorización real.
+      const TEST_MODE = true;
+      if (!TEST_MODE && now.getDay() !== 6) throw new Error("La arena solo acepta resultados los sábados.");
       const week = this.weekKey(now);
       const mode = String(result.mode);
       const score = Math.max(0, Math.min(5000, Math.floor(Number(result.score) || 0)));
