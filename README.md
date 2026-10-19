@@ -1,26 +1,27 @@
-# FREEHANDWORLD Quiz — Firebase Test Mode v5
+# FREEHAND WORLD — Cinematic Prototype v1
 
-Usa el proyecto Firebase existente `freehand-world` y deja activo el modo de prueba para jugar cualquier día.
+Prototipo jugable de aventura 2D: historia original, bosque procedural con capas de profundidad, movimiento y cámara suave, joystick táctil, controles de teclado/clic, cristales, partículas, diálogo, mapa y cierre cinematográfico.
 
-## Integración
-- Firebase Authentication anónima.
-- Perfil privado en `privateProfiles/{uid}` con el campo `realName`.
-- Ranking en tiempo real en `publicScores` con alias público, puntaje, modo y semana.
-- Intentos en `attempts/{uid}_{week}_{mode}`.
-- Conserva `game_progress` del juego anterior.
+## Prueba
+Subí el contenido de esta carpeta a una rama de prueba del repositorio `freehand-world` y activá GitHub Pages desde `main` / `/(root)` cuando decidas publicarlo. URL esperada: https://freehandcomunidad.github.io/freehand-world/
 
-## Antes de subir
-1. Descomprimí este ZIP.
-2. Reemplazá `index.html`, `css/` y `js/` en el repositorio GitHub.
-3. No borres ni cambies `game_progress`, `privateProfiles`, `publicScores` ni `attempts`.
-4. Las reglas publicadas deben permitir las escrituras de estas colecciones según el archivo `firestore.rules.recommended.txt` que acompaña esta versión. No las reemplaces sin compararlas con las reglas actuales.
-5. Después del commit, esperá GitHub Pages y probá con Ctrl+F5.
+## Controles
+- Móvil: joystick inferior izquierdo; botón ✦ para interactuar; botón de correr.
+- PC: WASD/flechas para moverte, E o Enter para interactuar; clic en el suelo para caminar.
+- Mapa: botón ⌖. Sonido: botón ♫.
 
-## Administrar el ranking y ver nombres reales
-Leé **`ADMINISTRACION_FIREBASE.md`**. Explica dónde aparecen las colecciones, cómo resetear ranking e intentos desde Firebase Console y dónde ver `realName` sin exponerlo al público.
+## Qué incluye
+- Capítulo I: *Cuando la luz se quebró*.
+- Misión de tres cristales, +50 XP por cristal y +150 XP al completar.
+- Cámara con easing, movimiento acelerado/desacelerado, partículas y luciérnagas.
+- La XP se guarda solo en la sesión del navegador en esta versión.
 
-## Limitaciones de seguridad
-- El puntaje se calcula en el navegador y no está validado en servidor; no usar para premios de valor hasta agregar validación de servidor/Cloud Functions.
-- El acceso anónimo identifica una instalación/navegador, no una identidad verificada.
-- El modo de prueba permite enviar resultados cualquier día; antes del lanzamiento público habrá que reactivar el bloqueo de sábado y probarlo.
-- No se agregó ningún botón público para borrar el ranking.
+## Seguridad económica
+La XP de esta versión es demostrativa y NO representa dinero ni saldo canjeable. No activar canjes hasta implementar Cloud Functions, validación de misiones del lado servidor, libro mayor transaccional, límites, auditoría, reglas Firestore y revisión legal/contable. Nunca confiar en XP enviada por el navegador.
+
+## Siguiente fase
+1. Crear arte original optimizado (fondos, sprites y atlas) para reemplazar formas procedurales.
+2. Agregar ciclos de caminar/idle/recoger y secuencias de cámara.
+3. Guardar progreso en el Firebase exclusivo de FREEHAND WORLD, sin tocar el proyecto anterior.
+4. Backend seguro para recompensas.
+5. Medir FPS y memoria en iOS/Android reales.
